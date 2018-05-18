@@ -1,0 +1,17 @@
+
+public enum GenderRate
+{
+	ALWAYS_MALE(),
+	FEMALE_ONE_EIGHTH(),
+	FEMALE_25_PERCENT(),
+	FEMALE_50_PERCENT(),
+	FEMALE_75_PERCENT(),
+	FEMALE_SEVEN_EIGHTHS(),
+	ALWAYS_FEMALE(),
+	GENDERLESS();
+
+	private GenderRate()
+	{
+
+	}
+}
