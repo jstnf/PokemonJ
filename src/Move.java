@@ -1,5 +1,5 @@
 
-public class Move
+public abstract class Move
 {
 
 }
