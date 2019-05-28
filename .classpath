@@ -17,5 +17,11 @@
 	<classpathentry kind="lib" path="lib/lwjgl-opengl.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-stb.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl.jar"/>
+	<classpathentry kind="lib" path="W:/Eclipse/PokemonJ/lib/lwjgl-assimp-natives-windows.jar"/>
+	<classpathentry kind="lib" path="W:/Eclipse/PokemonJ/lib/lwjgl-glfw-natives-windows.jar"/>
+	<classpathentry kind="lib" path="W:/Eclipse/PokemonJ/lib/lwjgl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="W:/Eclipse/PokemonJ/lib/lwjgl-openal-natives-windows.jar"/>
+	<classpathentry kind="lib" path="W:/Eclipse/PokemonJ/lib/lwjgl-opengl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="W:/Eclipse/PokemonJ/lib/lwjgl-stb-natives-windows.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
