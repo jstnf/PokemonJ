@@ -1,25 +1,16 @@
 package io.pokemonj;
 
-import static org.lwjgl.glfw.GLFW.GLFW_FALSE;
-import static org.lwjgl.glfw.GLFW.GLFW_VISIBLE;
-import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
-import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
-import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
-import static org.lwjgl.glfw.GLFW.glfwInit;
-import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
-import static org.lwjgl.glfw.GLFW.glfwPollEvents;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowPos;
-import static org.lwjgl.glfw.GLFW.glfwShowWindow;
-import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
-import static org.lwjgl.glfw.GLFW.glfwTerminate;
-import static org.lwjgl.glfw.GLFW.glfwWindowHint;
-import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
 
 import java.nio.IntBuffer;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
+
+import io.pokemonj.gfx.Texture;
 
 public class Window
 {
@@ -27,6 +18,8 @@ public class Window
 	private String title;
 	private long window;
 	private boolean isFullScreen;
+	
+	Texture tex;
 	
 	public Window(int width, int height, String title)
 	{
@@ -65,6 +58,9 @@ public class Window
 		
 		glfwMakeContextCurrent(window);
 		GL.createCapabilities();
+		
+		glEnable(GL_TEXTURE_2D);
+		tex = new Texture("./res/test.png");
 	
 		glfwShowWindow(window);
 	}
@@ -78,7 +74,26 @@ public class Window
 	{
 		IntBuffer widthBuffer = BufferUtils.createIntBuffer(1);
 		IntBuffer heightBuffer = BufferUtils.createIntBuffer(1); // 10:46
+		glfwGetWindowSize(window, widthBuffer, heightBuffer);
+		width = widthBuffer.get(0);
+		height = heightBuffer.get(0);
+		GL11.glViewport(0, 0, width, height);
+		
 		glfwPollEvents();
+		glClear(GL_COLOR_BUFFER_BIT);
+		
+		tex.bind();
+		
+		glBegin(GL_QUADS);
+		glTexCoord2f(0, 0);
+		glVertex2f(-0.6f, 0.5f);
+		glTexCoord2f(0, 1);
+		glVertex2f(0.7f, 0.2f);
+		glTexCoord2f(1, 1);
+		glVertex2f(0.4f, -0.5f);
+		glTexCoord2f(1, 0);
+		glVertex2f(-0.5f, -0.3f);
+		glEnd();
 	}
 	
 	public void swapBuffers()
