@@ -1,0 +1,147 @@
+POKEMON OBJECT CLASS
+
+reads information that was pulled and stored
+
+fields: (for constructor)
+Real Names
+Type
+Evolutions (store in a linked list of dex numbers)
+Alternate forms store in an array with a current index
+Moveset
+Dex Number (alternate forms will be 12.2)
+EV Yield (option)
+Base stats
+Sprite
+
+--Specific to object
+Nickname (option)
+IVs
+EVs
+Current Moveset (array of size 4)
+Current stats (or have a formula to calc)
+Status
+HP
+Stat changes
+Held item (option)
+isFainted
+Level
+
+
+How to get info:
+Excel
+Access data through bulbapedia.bulbagarden.net/wiki/NAME
+_____________________________________________________
+TYPE CLASS / ENUM
+- Super effective
+- Not effective
+- Not very effective
+
+Calculation of the damage should take into account both types
+______________________________________________________
+Move Object Class (need to instantiate them to allow PP to change)
+
+reads information that was pulled and stored
+
+fields:
+move number
+Type
+Damage
+- And moves with variable power, set damage (Seismic Toss)
+Accuracy (100 vs no miss)
+Current PP
+Max PP
+Total Possible PP
+Category (phys/special/status)
+- if status -> no damage
+Priority
+
+Secondary effects (effect + percentage)
+- Lower stats, by amount
+- Inflict status
+- Raise status, by amount
+- Recoil, by amount (%) (Explosion, Flare Blitz)
+- HP Drain (%)
+- Healing (%)
+- OHKO (%)
+- Thaw
+- Protection
+- Weather
+
+Other move types
+- Consecutive execution
+- Secret Power (option) / Moves that call other moves (Metronome)
+- Binding moves (option)
+- Charge turn / semi-invulnerable turn
+- High crit ratio
+___________________________________________________
+Status (abstract)
+- Flinch
+- Infatuation
+- Burn
+- Paralysis
+- Freeze
+- Poison
+- Confusion
+- Leech Seed
+- Binding?
+- Recharge?
+
+fields:
+- status lower (speed, attack)
+- Damage taken at end, poison would increase this number after every turn
+- fail to attack (has own message)
+
+_____________________________________________________
+PLAYER (maybe don't need)
+- BAG (arrayList array)
+- Money?
+public class MySizeLimitedArrayList extends ArrayList<Object> {
+  @Override
+  public boolean add(Object e) {
+      if (this.size() < 10) {
+          return super.add(e);
+      }
+      return false;
+  }
+}
+- PC? (matrix)
+- Badges?
+- Pkdex?
+___________________________________________________
+ITEM (interface)
+- Cost, sell, name, sprite, isHeldEffect, canHold
+Types
+- PokeBall (int ball type)
+  - Catch rate
+  - Additional catch effects (int) (store int, ball types in data file somewhere)
+- Berry
+  - same as medicine
+- Key Item? (int key item type)
+- Normal Items
+  - Evolutionary stones
+  - Shards / Sell stuff for money (nothing to code)
+  - Repels?
+  - Held-items
+    - Stat boost stuff
+    - Type boost stuff
+- Medicine (int medicine type)
+  - HP restore
+  - Status heal
+  - Revive = HP + status
+  - Ethers
+  - Vitamins (EVs)
+  - Level
+- Battle Items
+  - Stat
+- TMs
+  - Move name/number
+_____________________________________________
+TRAINER
+- PKMN arrayList
+- Trainer Class (+get the sprite downloaded)
+- Money given
+- Text box stuff?
+- BAG arrayList
+- Name
+- See range?
+- Movement? (could be in other class)
