@@ -86,13 +86,13 @@ public class Window
 		
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);
-		glVertex2f(-0.6f, 0.5f);
-		glTexCoord2f(0, 1);
-		glVertex2f(0.7f, 0.2f);
-		glTexCoord2f(1, 1);
-		glVertex2f(0.4f, -0.5f);
+		glVertex2f(-0.5f, 0.5f);
 		glTexCoord2f(1, 0);
-		glVertex2f(-0.5f, -0.3f);
+		glVertex2f(0.5f, 0.5f);
+		glTexCoord2f(1, 1);
+		glVertex2f(0.5f, -0.5f);
+		glTexCoord2f(0, 1);
+		glVertex2f(-0.5f, -0.5f);
 		glEnd();
 	}
 	
