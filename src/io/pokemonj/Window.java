@@ -10,6 +10,7 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
+import io.pokemonj.gfx.Model;
 import io.pokemonj.gfx.Texture;
 
 public class Window
@@ -18,16 +19,17 @@ public class Window
 	private String title;
 	private long window;
 	private boolean isFullScreen;
-	
+
 	Texture tex;
-	
+	Model model;
+
 	public Window(int width, int height, String title)
 	{
 		this.width = width;
 		this.height = height;
 		this.title = title;
 	}
-	
+
 	public void create()
 	{
 		if (!glfwInit())
@@ -35,10 +37,10 @@ public class Window
 			System.err.println("Failed to initialize GLFW.");
 			System.exit(-1);
 		}
-		
+
 		GLFWVidMode videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-		
+
 		if (isFullScreen)
 		{
 			window = glfwCreateWindow(videoMode.width(), videoMode.height(), title, glfwGetPrimaryMonitor(), window);
@@ -47,29 +49,50 @@ public class Window
 		{
 			window = glfwCreateWindow(width, height, title, 0, window);
 		}
-		
+
 		if (window == 0)
 		{
 			System.err.println("Failed to create window!");
 			System.exit(-1);
 		}
-		
+
 		glfwSetWindowPos(window, (videoMode.width() - width) / 2, (videoMode.height() - height) / 2);
-		
+
 		glfwMakeContextCurrent(window);
 		GL.createCapabilities();
-		
+
 		glEnable(GL_TEXTURE_2D);
+		
+		float[] vertices = new float[] {
+				-0.5f, 0.5f, 0, // TOP LEFT     0
+				0.5f, 0.5f, 0, // TOP RIGHT     1
+				0.5f, -0.5f, 0, // BOTTOM RIGHT 2
+				-0.5f, -0.5f, 0, // BOTTOM LEFT 3
+		};
+		
+		float[] texture = new float[] {
+				0,0,
+				1,0,
+				1,1,
+				0,1,
+		};
+		
+		int[] indices = new int[] {
+				0,1,2,
+				2,3,0
+		};
+
+		model = new Model(vertices, texture, indices);
 		tex = new Texture("./res/test.png");
-	
+
 		glfwShowWindow(window);
 	}
-	
+
 	public boolean isCloseRequested()
 	{
 		return glfwWindowShouldClose(this.window);
 	}
-	
+
 	public void update()
 	{
 		IntBuffer widthBuffer = BufferUtils.createIntBuffer(1);
@@ -78,29 +101,30 @@ public class Window
 		width = widthBuffer.get(0);
 		height = heightBuffer.get(0);
 		GL11.glViewport(0, 0, width, height);
-		
+
 		glfwPollEvents();
 		glClear(GL_COLOR_BUFFER_BIT);
 		
 		tex.bind();
-		
-		glBegin(GL_QUADS);
-		glTexCoord2f(0, 0);
-		glVertex2f(-0.5f, 0.5f);
-		glTexCoord2f(1, 0);
-		glVertex2f(0.5f, 0.5f);
-		glTexCoord2f(1, 1);
-		glVertex2f(0.5f, -0.5f);
-		glTexCoord2f(0, 1);
-		glVertex2f(-0.5f, -0.5f);
-		glEnd();
+		model.render();
+
+		// glBegin(GL_QUADS);
+		// glTexCoord2f(0, 0);
+		// glVertex2f(-0.5f, 0.5f);
+		// glTexCoord2f(1, 0);
+		// glVertex2f(0.5f, 0.5f);
+		// glTexCoord2f(1, 1);
+		// glVertex2f(0.5f, -0.5f);
+		// glTexCoord2f(0, 1);
+		// glVertex2f(-0.5f, -0.5f);
+		// glEnd();
 	}
-	
+
 	public void swapBuffers()
 	{
 		glfwSwapBuffers(this.window);
 	}
-	
+
 	public void stop()
 	{
 		glfwTerminate();

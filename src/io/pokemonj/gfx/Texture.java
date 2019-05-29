@@ -17,9 +17,9 @@ public class Texture
 		IntBuffer width = BufferUtils.createIntBuffer(1);
 		IntBuffer height = BufferUtils.createIntBuffer(1);
 		IntBuffer comp = BufferUtils.createIntBuffer(1);
-		
+
 		ByteBuffer data = stbi_load(file, width, height, comp, 4);
-		
+
 		id = glGenTextures();
 		this.width = width.get();
 		this.height = height.get();
