@@ -1,0 +1,4 @@
+Pokemon:
+- No Alolan Forms
+- Castform, Kyogre, Groudon and Deoxys have one form only
+- No Megas

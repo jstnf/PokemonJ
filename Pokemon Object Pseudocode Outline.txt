@@ -5,8 +5,9 @@ reads information that was pulled and stored
 fields: (for constructor)
 Real Names
 Type
+
 Evolutions (store in a linked list of dex numbers)
-Alternate forms store in an array with a current index
+-> NO: Alternate forms store in an array with a current index
 Moveset
 Dex Number (alternate forms will be 12.2)
 EV Yield (option)
@@ -22,7 +23,7 @@ Current stats (or have a formula to calc)
 Status (arrayList)
 Has major status boolean
 HP
-Stat changes
+Stat changes, crit ratio
 Held item (option)
 isFainted
 Level
@@ -109,7 +110,7 @@ fields: (in method?)
 _____________________________________________________
 PLAYER (maybe don't need this grouping header)
 - BAG (arrayList array)
-- Money?
+- Money
 public class MySizeLimitedArrayList extends ArrayList<Object> {
   @Override
   public boolean add(Object e) {
@@ -119,9 +120,7 @@ public class MySizeLimitedArrayList extends ArrayList<Object> {
       return false;
   }
 }
-- PC? (matrix of Pokemon objects)
-- Badges?
-- Pkdex?
+- PC (matrix of Pokemon objects)
 ___________________________________________________
 ITEM (interface)
 - Cost, sell, name, sprite, isHeldEffect, canHold
@@ -129,13 +128,8 @@ Types
 - PokeBall (int ball type)
   - Catch rate
   - Additional catch effects (int) (store int, ball types in data file somewhere)
-- Berry
-  - same as medicine
-- Key Item? (int key item type)
 - Normal Items
   - Evolutionary stones
-  - Shards / Sell stuff for money (nothing to code)
-  - Repels?
   - Held-items
     - Stat boost stuff
     - Type boost stuff
@@ -148,12 +142,12 @@ Types
   - Level
 - Battle Items
   - Stat
-- TMs
-  - Move name/number
+
+- Berry - not coding
 _____________________________________________
 TRAINER
 - PKMN arrayList
-- Trainer Class (+get the sprite downloaded)
+- Trainer Class (+get the sprite downloaded) -> probably just get a list and randomly generate
 - Money given
 - Text box stuff?
 - BAG arrayList
