@@ -5,6 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 import java.nio.IntBuffer;
 
+import org.joml.Matrix4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -24,6 +25,7 @@ public class Window
 	Texture tex;
 	Shader shader;
 	Model model;
+	Matrix4f projection, scale, target;
 
 	public Window(int width, int height, String title)
 	{
@@ -87,6 +89,11 @@ public class Window
 		model = new Model(vertices, texture, indices);
 		shader = new Shader("shader");
 		tex = new Texture("./res/test.png");
+		projection = new Matrix4f().ortho2D(width / -2, width / 2, height / -2, height / 2);
+		scale = new Matrix4f().scale(200);
+		target = new Matrix4f();
+		
+		projection.mul(scale, target);
 
 		glfwShowWindow(window);
 	}
@@ -99,7 +106,7 @@ public class Window
 	public void update()
 	{
 		IntBuffer widthBuffer = BufferUtils.createIntBuffer(1);
-		IntBuffer heightBuffer = BufferUtils.createIntBuffer(1); // 10:46
+		IntBuffer heightBuffer = BufferUtils.createIntBuffer(1);
 		glfwGetWindowSize(window, widthBuffer, heightBuffer);
 		width = widthBuffer.get(0);
 		height = heightBuffer.get(0);
@@ -110,6 +117,7 @@ public class Window
 		
 		shader.bind();
 		shader.setUniform("sampler", 0);
+		shader.setUniform("projection", target);
 		tex.bind(0);
 		model.render();
 	}

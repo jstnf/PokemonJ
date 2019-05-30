@@ -1,0 +1,12 @@
+- Start from a list of starter Pokemon
+- Scaling difficulty system
+- Encounter a series of battles
+- Healing costs money
+- Given a certain amount of items and money after each battle
+- Maybe every 5 battles given the option to take one of the opponent's Pokemon or have a wild encounter
+- In between battles you can heal Pokemon with money or with your items
+- As battles increase, level increases
+- Certain tiers of battles, as you enter next tier, more challenging Pokemon appear
+- Normal leveling system, teach moves, etc.
+- Last as long as possible
+- High scores at end
