@@ -19,7 +19,8 @@ IVs
 EVs
 Current Moveset (array of size 4)
 Current stats (or have a formula to calc)
-Status
+Status (arrayList)
+Has major status boolean
 HP
 Stat changes
 Held item (option)
@@ -29,6 +30,7 @@ Level
 
 How to get info:
 Excel
+Use name to parse from:
 Access data through bulbapedia.bulbagarden.net/wiki/NAME
 _____________________________________________________
 TYPE CLASS / ENUM
@@ -37,6 +39,10 @@ TYPE CLASS / ENUM
 - Not very effective
 
 Calculation of the damage should take into account both types
+Store type as an int
+
+How to get info:
+Excel use to create matrix
 ______________________________________________________
 Move Object Class (need to instantiate them to allow PP to change)
 
@@ -73,38 +79,47 @@ Other move types
 - Binding moves (option)
 - Charge turn / semi-invulnerable turn
 - High crit ratio
+
+How to get info:
+Store move as int
+Use matrix
+Make sure to account for nonzero accuracy and power
 ___________________________________________________
-Status (abstract)
-- Flinch
-- Infatuation
+Status (ENUM with method that triggers all the status stuff? one method for before attack, stat effects, and damage at the end?)
 - Burn
 - Paralysis
 - Freeze
 - Poison
+
+- Flinch
+- Infatuation
 - Confusion
 - Leech Seed
 - Binding?
 - Recharge?
 
-fields:
+fields: (in method?)
 - status lower (speed, attack)
-- Damage taken at end, poison would increase this number after every turn
+- Damage taken at end, poison would increase this number after every turn using method
 - fail to attack (has own message)
+- Duration
+- String for what happens with status
 
+- Name
 _____________________________________________________
-PLAYER (maybe don't need)
+PLAYER (maybe don't need this grouping header)
 - BAG (arrayList array)
 - Money?
 public class MySizeLimitedArrayList extends ArrayList<Object> {
   @Override
   public boolean add(Object e) {
-      if (this.size() < 10) {
+      if (this.size() < 6) {
           return super.add(e);
       }
       return false;
   }
 }
-- PC? (matrix)
+- PC? (matrix of Pokemon objects)
 - Badges?
 - Pkdex?
 ___________________________________________________
