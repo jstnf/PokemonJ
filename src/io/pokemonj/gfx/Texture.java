@@ -1,6 +1,7 @@
 package io.pokemonj.gfx;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.stb.STBImage.*;
 
 import java.nio.ByteBuffer;
@@ -32,8 +33,13 @@ public class Texture
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this.width, this.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	}
 
-	public void bind()
+	public void bind(int sampler)
 	{
-		glBindTexture(GL_TEXTURE_2D, id);
+		if (sampler >= 0 && sampler <= 31)
+		{
+			glActiveTexture(GL_TEXTURE0 + sampler);
+			glBindTexture(GL_TEXTURE_2D, id);
+		
+		}
 	}
 }
