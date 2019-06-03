@@ -6,17 +6,25 @@ fields: (for constructor)
 Real Names
 Type
 
+Evolutions (store in a linked list of dex numbers)
+-> NO: Alternate forms store in an array with a current index
 Moveset
-Dex Number
+Dex Number (alternate forms will be 12.2)
+EV Yield (option)
 Base stats
 Sprite
 
 --Specific to object
+Nickname (option)
+IVs
+EVs
 Current Moveset (array of size 4)
 Current stats (or have a formula to calc)
+Status (arrayList)
+Has major status boolean
 HP
-Status
 Stat changes, crit ratio
+Held item (option)
 isFainted
 Level
 
@@ -49,8 +57,10 @@ Damage
 Accuracy (100 vs no miss)
 Current PP
 Max PP
+Total Possible PP
 Category (phys/special/status)
 - if status -> no damage
+Priority
 
 Secondary effects (effect + percentage)
 - Lower stats, by amount
@@ -81,7 +91,13 @@ Status (ENUM with method that triggers all the status stuff? one method for befo
 - Paralysis
 - Freeze
 - Poison
-- Paused/Recharge
+
+- Flinch
+- Infatuation
+- Confusion
+- Leech Seed
+- Binding?
+- Recharge?
 
 fields: (in method?)
 - status lower (speed, attack)
@@ -104,6 +120,30 @@ public class MySizeLimitedArrayList extends ArrayList<Object> {
       return false;
   }
 }
+- PC (matrix of Pokemon objects)
+___________________________________________________
+ITEM (interface)
+- Cost, sell, name, sprite, isHeldEffect, canHold
+Types
+- PokeBall (int ball type)
+  - Catch rate
+  - Additional catch effects (int) (store int, ball types in data file somewhere)
+- Normal Items
+  - Evolutionary stones
+  - Held-items
+    - Stat boost stuff
+    - Type boost stuff
+- Medicine (int medicine type)
+  - HP restore
+  - Status heal
+  - Revive = HP + status
+  - Ethers
+  - Vitamins (EVs)
+  - Level
+- Battle Items
+  - Stat
+
+- Berry - not coding
 _____________________________________________
 TRAINER
 - PKMN arrayList
