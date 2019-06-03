@@ -1,0 +1,108 @@
+POKEMON OBJECT CLASS
+
+reads information that was pulled and stored
+
+fields: (for constructor)
+Real Names
+Type
+
+Moveset
+Dex Number
+Base stats
+Sprite
+
+--Specific to object
+Current Moveset (array of size 4)
+Current stats (or have a formula to calc)
+HP
+Status
+Stat changes, crit ratio
+isFainted
+Level
+
+
+How to get info:
+Excel
+Use name to parse from:
+Access data through bulbapedia.bulbagarden.net/wiki/NAME
+_____________________________________________________
+TYPE CLASS / ENUM
+- Super effective
+- Not effective
+- Not very effective
+
+Calculation of the damage should take into account both types
+Store type as an int
+
+How to get info:
+Excel use to create matrix
+______________________________________________________
+Move Object Class (need to instantiate them to allow PP to change)
+
+reads information that was pulled and stored
+
+fields:
+move number
+Type
+Damage
+- And moves with variable power, set damage (Seismic Toss)
+Accuracy (100 vs no miss)
+Current PP
+Max PP
+Category (phys/special/status)
+- if status -> no damage
+
+Secondary effects (effect + percentage)
+- change stats, by amount
+- Inflict status
+- Recoil, by amount (%) (Explosion, Flare Blitz)
+- HP Drain (%)
+- Healing (%)
+
+Other move types
+- Consecutive execution
+- High crit ratio
+
+How to get info:
+Store move as int
+Use matrix
+Make sure to account for nonzero accuracy and power
+___________________________________________________
+Status (ENUM with method that triggers all the status stuff? one method for before attack, stat effects, and damage at the end?)
+- Burn
+- Paralysis
+- Freeze
+- Poison
+- Paused/Recharge
+
+fields: (in method?)
+- status lower (speed, attack)
+- Damage taken at end, poison would increase this number after every turn using method
+- fail to attack (has own message)
+- Duration
+- String for what happens with status
+
+- Name
+_____________________________________________________
+PLAYER (maybe don't need this grouping header)
+- BAG (arrayList array)
+- Money
+public class MySizeLimitedArrayList extends ArrayList<Object> {
+  @Override
+  public boolean add(Object e) {
+      if (this.size() < 6) {
+          return super.add(e);
+      }
+      return false;
+  }
+}
+_____________________________________________
+TRAINER
+- PKMN arrayList
+- Trainer Class (+get the sprite downloaded) -> probably just get a list and randomly generate
+- Money given
+- Text box stuff?
+- BAG arrayList
+- Name
+- See range?
+- Movement? (could be in other class)
