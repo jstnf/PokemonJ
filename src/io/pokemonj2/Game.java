@@ -7,6 +7,7 @@ import java.awt.image.BufferStrategy;
 import io.pokemonj2.gfx.Assets;
 import io.pokemonj2.gfx.Display;
 import io.pokemonj2.input.KeyManager;
+import io.pokemonj2.states.MenuState;
 import io.pokemonj2.states.State;
 
 public class Game implements Runnable
@@ -72,6 +73,9 @@ public class Game implements Runnable
 		display = new Display(title, width, height);
 		display.getFrame().addKeyListener(keyManager);
 		Assets.init();
+		
+		MenuState menu = new MenuState(this);
+		State.setState(menu);
 	}
 
 	private void tick()
@@ -128,5 +132,15 @@ public class Game implements Runnable
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public int getWidth()
+	{
+		return width;
+	}
+	
+	public int getHeight()
+	{
+		return height;
 	}
 }
