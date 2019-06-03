@@ -18,10 +18,3 @@
 17 Dragon
 18 Dark
 19 Fairy
-20 futureType
-21 futureType
-22 futureType
-23 ???
-24 Egg
-25 Placeholder
-26 debug
