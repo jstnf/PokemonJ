@@ -12,6 +12,8 @@ import io.pokemonj2.states.State;
 
 public class Game implements Runnable
 {
+	public static final int NUM_OF_POKEMON = 151;
+	
 	private int width, height;
 	private String title;
 	private boolean running;
