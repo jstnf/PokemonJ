@@ -45,7 +45,6 @@ fields:
 move number
 Type
 Damage
-- And moves with variable power, set damage (Seismic Toss)
 Accuracy (100 vs no miss)
 Current PP
 Max PP
