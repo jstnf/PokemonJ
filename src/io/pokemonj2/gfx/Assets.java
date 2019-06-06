@@ -7,12 +7,19 @@ import io.pokemonj2.Game;
 
 public class Assets
 {
-	public static BufferedImage scene;
+	/* Title Screen Assets */
+	public static BufferedImage titleScreen, pressSpace;
+	
+	/* Battle Assets */
+	public static BufferedImage battle_scene_grass;
 	public static ArrayList<BufferedImage> battleBackSprite, battleFrontSprite;
 	public static ArrayList<Integer> battleBackPixel, battleFrontPixel;
 
 	public static void init()
 	{
+		titleScreen = ImageLoader.loadImage("/textures/title/title-screen.png");
+		pressSpace = ImageLoader.loadImage("/textures/title/press-space.png");
+		
 		battleBackSprite = new ArrayList<BufferedImage>();
 		battleBackPixel = new ArrayList<Integer>();
 		battleFrontSprite = new ArrayList<BufferedImage>();
@@ -20,7 +27,7 @@ public class Assets
 
 		SpriteSheet backSprites = new SpriteSheet(ImageLoader.loadImage("/textures/sprites/battle-back-sprites.png"));
 		SpriteSheet frontSprites = new SpriteSheet(ImageLoader.loadImage("/textures/sprites/battle-front-sprites.png"));
-		scene = ImageLoader.loadImage("/textures/battle-grass.png");
+		battle_scene_grass = ImageLoader.loadImage("/textures/battle-grass.png");
 
 		int widthIndex = 0;
 		int heightIndex = 0;

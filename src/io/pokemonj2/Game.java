@@ -9,10 +9,11 @@ import io.pokemonj2.gfx.Display;
 import io.pokemonj2.input.KeyManager;
 import io.pokemonj2.states.MenuState;
 import io.pokemonj2.states.State;
+import io.pokemonj2.states.TitleState;
 
 public class Game implements Runnable
 {
-	public static final int NUM_OF_POKEMON = 386;
+	public static final int NUM_OF_POKEMON = 151;
 	
 	private int width, height;
 	private String title;
@@ -76,8 +77,9 @@ public class Game implements Runnable
 		display.getFrame().addKeyListener(keyManager);
 		Assets.init();
 		
+		TitleState title = new TitleState(this);
 		MenuState menu = new MenuState(this);
-		State.setState(menu);
+		State.setState(title);
 	}
 
 	private void tick()
