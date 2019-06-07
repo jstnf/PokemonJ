@@ -32,44 +32,56 @@ public class Battle {
 			System.out.println("USE: ");
 			int input = scanner.nextInt(); //GUI will stop errors
 			
-			int oppMoveNum = (int)(Math.random() * 4);
-			
-			int myPKMNSpe = myPKMN.getCurrStats()[5];
-			int oppPKMNSpe = oppPKMN.getCurrStats()[5];
-			if(myPKMN.getCurrStatus() == Status.PARALYSIS)
-				myPKMNSpe = myPKMNSpe / 2;
-			if(oppPKMN.getCurrStatus() == Status.PARALYSIS)
-				oppPKMNSpe = oppPKMNSpe / 2;
-
-			double aSpeedMultiplier = calculateMultiplier(myPKMN.getStatChanges()[5]);
-			myPKMNSpe = (int)(myPKMNSpe * aSpeedMultiplier);
-			double dSpeedMultiplier = calculateMultiplier(myPKMN.getStatChanges()[5]);
-			oppPKMNSpe = (int)(oppPKMNSpe * dSpeedMultiplier);
-				
-			if(myPKMNSpe >= oppPKMNSpe)//you always win speed tie
-			{
-				runMove(myPKMN, oppPKMN, allMoves.get(moves[input].getMoveNum()));
-				if(!oppPKMN.isFainted)
-					runMove(oppPKMN, myPKMN, allMoves.get(oppPKMN.getCurrMoves()[oppMoveNum].getMoveNum()));
-			}
-			else
-			{
-				runMove(oppPKMN, myPKMN, allMoves.get(moves[oppMoveNum].getMoveNum()));
-				if(!myPKMN.isFainted)
-					runMove(myPKMN, oppPKMN, allMoves.get(oppPKMN.getCurrMoves()[input].getMoveNum()));
-			}
-			
-			runStatus(myPKMN);
-			runStatus(oppPKMN);
-			
-			System.out.println("MY: " + myPKMN.getCurrHP());
-			System.out.println("OPP: " + oppPKMN.getCurrHP());
+			takeMoveInput(input);
 		}
 		
 		if(myPKMN.isFainted)
 			System.out.print("YOU LOST");
 		else
 			System.out.print("YOU WON!");
+	}
+	
+	public void takeMoveInput(int input)
+	{
+		Move[] moves = myPKMN.getCurrMoves();
+		
+		int oppMoveNum = (int)(Math.random() * 4);
+		
+		int myPKMNSpe = myPKMN.getCurrStats()[5];
+		int oppPKMNSpe = oppPKMN.getCurrStats()[5];
+		if(myPKMN.getCurrStatus() == Status.PARALYSIS)
+			myPKMNSpe = myPKMNSpe / 2;
+		if(oppPKMN.getCurrStatus() == Status.PARALYSIS)
+			oppPKMNSpe = oppPKMNSpe / 2;
+
+		double aSpeedMultiplier = calculateMultiplier(myPKMN.getStatChanges()[5]);
+		myPKMNSpe = (int)(myPKMNSpe * aSpeedMultiplier);
+		double dSpeedMultiplier = calculateMultiplier(myPKMN.getStatChanges()[5]);
+		oppPKMNSpe = (int)(oppPKMNSpe * dSpeedMultiplier);
+			
+		if(myPKMNSpe >= oppPKMNSpe)//you always win speed tie
+		{
+			runMove(myPKMN, oppPKMN, allMoves.get(moves[input].getMoveNum()));
+			if(!oppPKMN.isFainted)
+				runMove(oppPKMN, myPKMN, allMoves.get(oppPKMN.getCurrMoves()[oppMoveNum].getMoveNum()));
+		}
+		else
+		{
+			runMove(oppPKMN, myPKMN, allMoves.get(moves[oppMoveNum].getMoveNum()));
+			if(!myPKMN.isFainted)
+				runMove(myPKMN, oppPKMN, allMoves.get(oppPKMN.getCurrMoves()[input].getMoveNum()));
+		}
+		
+		runStatus(myPKMN);
+		runStatus(oppPKMN);
+		
+		System.out.println("MY: " + myPKMN.getCurrHP());
+		System.out.println("OPP: " + oppPKMN.getCurrHP());
+	
+	if(myPKMN.isFainted)
+		System.out.print("YOU LOST");
+	else
+		System.out.print("YOU WON!");
 	}
 	
 	public Pokemon getMine()
