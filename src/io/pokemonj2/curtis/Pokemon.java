@@ -1,7 +1,9 @@
 package io.pokemonj2.curtis;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Pokemon {
 	//sprites?
@@ -110,6 +112,4 @@ public class Pokemon {
 	public void setFainted(boolean isFainted) {
 		this.isFainted = isFainted;
 	}
-	
-	
 }

@@ -17,7 +17,7 @@ import io.pokemonj2.sfx.Sounds;
 
 public class PokemonSelectState extends State
 {
-	private float fadeIn;
+	private float fadeIn, transitionFade;
 	private boolean selectInit;
 
 	private int selectionStage;
@@ -27,6 +27,9 @@ public class PokemonSelectState extends State
 	
 	private boolean initNewMusic;
 	private boolean initReceiveSound;
+	
+	private int nextDisplacement;
+	private boolean nextIncreasing;
 
 	private Random r;
 	private int pokemon1, pokemon2, pokemon3;
@@ -43,6 +46,7 @@ public class PokemonSelectState extends State
 		pokemon3 = r.nextInt(game.NUM_OF_POKEMON);
 
 		fadeIn = 1.5f;
+		transitionFade = 0.0f;
 		selectInit = false;
 		selectionStage = 0;
 		actionDelay = 0;
@@ -50,6 +54,9 @@ public class PokemonSelectState extends State
 		yesNoIndex = 1;
 		initNewMusic = false;
 		initReceiveSound = false;
+		
+		nextDisplacement = 0;
+		nextIncreasing = true;
 
 		box1_x = 30;
 		box2_x = 340;
@@ -63,6 +70,23 @@ public class PokemonSelectState extends State
 		if (actionDelay < 0)
 		{
 			actionDelay = 0;
+		}
+		
+		if (nextIncreasing)
+		{
+			nextDisplacement += 1;
+			if (nextDisplacement > 100)
+			{
+				nextIncreasing = !nextIncreasing;
+			}
+		}
+		else
+		{
+			nextDisplacement -= 1;
+			if (nextDisplacement < 0)
+			{
+				nextIncreasing = !nextIncreasing;
+			}
 		}
 
 		if (fadeIn > 0.0f && !selectInit)
@@ -142,6 +166,7 @@ public class PokemonSelectState extends State
 					else
 					{
 						selectionStage = 0;
+						actionDelay = 30;
 					}
 					AudioManager.playSound(Sounds.CONFIRM);
 				}
@@ -163,7 +188,18 @@ public class PokemonSelectState extends State
 				if (game.getKeyManager().interact && actionDelay == 0 && initNewMusic)
 				{
 					AudioManager.playSound(Sounds.CONFIRM);
-					// game start here!
+					selectionStage = 3;
+				}
+			}
+			else if (selectionStage == 3)
+			{
+				if (transitionFade < 1.5f)
+				{
+					transitionFade += 0.01f;
+				}
+				else
+				{
+					State.setState(new OutOfBattleState(game));
 				}
 			}
 		}
@@ -181,10 +217,9 @@ public class PokemonSelectState extends State
 
 		if (selectInit)
 		{
-			drawDialogueBox(g);
-
 			if (selectionStage == 0)
 			{
+				drawDialogueBox(g);
 				FontDrawer.drawText("Which POKéMON will you choose?", 70, game.getHeight() - 150, 50, g);
 				
 				switch (selectionIndex)
@@ -209,6 +244,7 @@ public class PokemonSelectState extends State
 			}
 			else if (selectionStage == 1)
 			{
+				drawDialogueBox(g);
 				int pokemonChosen = 1;
 				switch (selectionIndex)
 				{
@@ -259,6 +295,7 @@ public class PokemonSelectState extends State
 			}
 			else if (selectionStage == 2)
 			{
+				drawDialogueBox(g);
 				int pokemonChosen = 1;
 				switch (selectionIndex)
 				{
@@ -274,6 +311,18 @@ public class PokemonSelectState extends State
 				}
 				String name = Pokenum.fromDexNo(pokemonChosen).getName();
 				FontDrawer.drawText("You chose " + name + "!", 70, game.getHeight() - 150, 50, g);
+				
+				if (actionDelay == 0)
+				{
+					g.drawImage(Assets.next, game.getWidth() - 100, game.getHeight() - 60 - (nextDisplacement / 10), 30,
+							20, null);
+				}
+			}
+			else if (selectionStage == 3)
+			{
+				g.setColor(Color.BLACK);
+				((Graphics2D) g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Math.min(1.0f, transitionFade)));
+				g.fillRect(0, 0, game.getWidth(), game.getHeight());
 			}
 		}
 	}

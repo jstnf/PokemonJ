@@ -12,6 +12,8 @@ public class Assets
 	
 	/* Frames */
 	public static BufferedImage tr, tl, t_ho, b_ho, l_ve, r_ve, br, bl, fill;
+	public static BufferedImage red_tr, red_tl, red_t_ho, red_b_ho, red_l_ve, red_r_ve, red_br, red_bl, red_fill;
+	public static BufferedImage blue_tr, blue_tl, blue_t_ho, blue_b_ho, blue_l_ve, blue_r_ve, blue_br, blue_bl, blue_fill;
 	
 	/* Font */
 	public static BufferedImage[] charSet;
@@ -136,6 +138,26 @@ public class Assets
 		l_ve = menuFrames.crop(4, 26, 8, 8);
 		r_ve = menuFrames.crop(22, 26, 8, 8);
 		fill = menuFrames.crop(13, 26, 8, 8);
+		
+		red_tl = menuFrames.crop(4, 17, 8, 8);
+		red_tr = menuFrames.crop(22, 17, 8, 8);
+		red_bl = menuFrames.crop(4, 35, 8, 8);
+		red_br = menuFrames.crop(22, 35, 8, 8);
+		red_t_ho = menuFrames.crop(13, 17, 8, 8);
+		red_b_ho = menuFrames.crop(13, 35, 8, 8);
+		red_l_ve = menuFrames.crop(4, 26, 8, 8);
+		red_r_ve = menuFrames.crop(22, 26, 8, 8);
+		red_fill = menuFrames.crop(13, 26, 8, 8);
+		
+		blue_tl = menuFrames.crop(4, 17, 8, 8);
+		blue_tr = menuFrames.crop(22, 17, 8, 8);
+		blue_bl = menuFrames.crop(4, 35, 8, 8);
+		blue_br = menuFrames.crop(22, 35, 8, 8);
+		blue_t_ho = menuFrames.crop(13, 17, 8, 8);
+		blue_b_ho = menuFrames.crop(13, 35, 8, 8);
+		blue_l_ve = menuFrames.crop(4, 26, 8, 8);
+		blue_r_ve = menuFrames.crop(22, 26, 8, 8);
+		blue_fill = menuFrames.crop(13, 26, 8, 8);
 
 		/* Battle Sprites */
 		SpriteSheet backSprites = new SpriteSheet(ImageLoader.loadImage("/textures/sprites/battle-back-sprites.png"));

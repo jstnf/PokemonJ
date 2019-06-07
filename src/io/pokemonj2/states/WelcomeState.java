@@ -225,14 +225,13 @@ public class WelcomeState extends State
 					line1 = "";
 					line2 = "";
 					
-					game.setGender(genderSelIndex);
-					if (game.getGender() == 0)
+					if (genderSelIndex == 0)
 					{
-						game.setName("RED");
+						game.initTrainer("RED", 0);
 					}
 					else
 					{
-						game.setName("GREEN");
+						game.initTrainer("GREEN", 1);
 					}
 					
 					welcomeStage = 3;

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
+import io.pokemonj2.curtis.Trainer;
 import io.pokemonj2.gfx.Assets;
 import io.pokemonj2.gfx.Display;
 import io.pokemonj2.input.KeyManager;
@@ -23,8 +24,7 @@ public class Game implements Runnable
 	private Display display;
 	private KeyManager keyManager;
 	
-	private int gender;
-	private String name;
+	private Trainer trainer;
 
 	public Game(String title, int width, int height)
 	{
@@ -154,23 +154,13 @@ public class Game implements Runnable
 		return keyManager;
 	}
 	
-	public void setGender(int gender)
+	public void initTrainer(String name, int gender)
 	{
-		this.gender = gender;
+		trainer = new Trainer(name, gender);
 	}
 	
-	public void setName(String name)
+	public Trainer getTrainer()
 	{
-		this.name = name;
-	}
-	
-	public int getGender()
-	{
-		return gender;
-	}
-	
-	public String getName()
-	{
-		return name;
+		return trainer;
 	}
 }

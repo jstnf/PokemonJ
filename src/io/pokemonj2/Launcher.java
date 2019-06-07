@@ -6,10 +6,5 @@ public class Launcher
 	{
 		Game game = new Game("Pokémon Java Version", 960, 640); // 960 x 540 // 720 x 480
 		game.start();
-		
-		for (int i = 0; i < 151; i++)
-		{
-			System.out.println("(" + i + ", \"\"),");
-		}
 	}
 }
