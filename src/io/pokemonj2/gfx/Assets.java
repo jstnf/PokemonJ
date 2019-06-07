@@ -19,11 +19,19 @@ public class Assets
 	/* Oak and Intro*/
 	public static BufferedImage oak;
 	public static BufferedImage intro_bg;
+	public static BufferedImage table;
 	
 	/* Battle Assets */
 	public static BufferedImage battle_scene_grass;
 	public static ArrayList<BufferedImage> battleBackSprite, battleFrontSprite;
 	public static ArrayList<Integer> battleBackPixel, battleFrontPixel;
+	
+	/* Characters */
+	public static BufferedImage trainer_boy, trainer_girl;
+	
+	/* Misc */
+	public static BufferedImage next;
+	public static BufferedImage selection;
 
 	public static void init()
 	{
@@ -32,7 +40,7 @@ public class Assets
 		battleBackPixel = new ArrayList<Integer>();
 		battleFrontSprite = new ArrayList<BufferedImage>();
 		battleFrontPixel = new ArrayList<Integer>();
-		charSet = new BufferedImage[128];
+		charSet = new BufferedImage[256];
 		
 		/* Title Screen */
 		titleScreen = ImageLoader.loadImage("/textures/title/title-screen.png");
@@ -52,6 +60,7 @@ public class Assets
 			charSet[i] = font.crop(numStartIndex, 43, 6, 13); // 0 - 9
 			numStartIndex += 6;
 		}
+		charSet[63] = font.crop(400, 43, 5, 13); // ?
 		int capLetterStartIndex = 326;
 		for (int i = 65; i < 91; i++)
 		{
@@ -70,7 +79,7 @@ public class Assets
 		charSet[105] = font.crop(309, 71, 4, 13); // i
 		charSet[106] = font.crop(313, 71, 6, 13); // j
 		charSet[107] = font.crop(319, 71, 6, 13); // k
-		charSet[108] = font.crop(325, 71, 5, 13); // l
+		charSet[108] = font.crop(324, 71, 5, 13); // l
 		charSet[109] = font.crop(329, 71, 6, 13); // m
 		charSet[110] = font.crop(335, 71, 5, 13); // n
 		int o_qStartIndex = 340;
@@ -93,16 +102,27 @@ public class Assets
 		}
 		charSet[121] = font.crop(397, 71, 7, 13); // y
 		charSet[122] = font.crop(404, 71, 6, 13); // z
+		charSet[130] = font.crop(445, 14, 6, 13); // é
+		charSet[233] = font.crop(445, 14, 6, 13); // é
 		
 		/* Oak */
 		SpriteSheet oakSheet = new SpriteSheet(ImageLoader.loadImage("/textures/sprites/prof-oak.png"));
 		oakSheet.replaceRGBWithTransparent(0, 128, 128);
-		oak = oakSheet.crop(260, 4, 54, 85);
+		oak = oakSheet.crop(260, 4, 55, 86);
+		table = oakSheet.crop(119, 58, 68, 49);
 		SpriteSheet introSheet = new SpriteSheet(ImageLoader.loadImage("/textures/intro-screens.png"));
 		intro_bg = introSheet.crop(5, 5, 239, 159);
 		
 		/* Battle Icons */
 		SpriteSheet battleIcons = new SpriteSheet(ImageLoader.loadImage("/textures/battle-icon.png"));
+		battleIcons.replaceRGBWithTransparent(255, 255, 255);
+		next = battleIcons.crop(544, 59, 10, 6);
+		selection = battleIcons.crop(269, 4, 5, 10);
+		
+		/* Characters */
+		SpriteSheet trainerSprites = new SpriteSheet(ImageLoader.loadImage("/textures/sprites/trainer-sprites.png"));
+		trainer_boy = trainerSprites.crop(167, 18, 160, 220);
+		trainer_girl = trainerSprites.crop(3, 10, 160, 220);
 		
 		/* Menu Frames */
 		SpriteSheet menuFrames = new SpriteSheet(ImageLoader.loadImage("/textures/menu-frames.png"));

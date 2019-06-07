@@ -7,9 +7,9 @@ import java.awt.image.BufferStrategy;
 import io.pokemonj2.gfx.Assets;
 import io.pokemonj2.gfx.Display;
 import io.pokemonj2.input.KeyManager;
-import io.pokemonj2.states.MenuState;
 import io.pokemonj2.states.State;
 import io.pokemonj2.states.TitleState;
+import io.pokemonj2.states.WelcomeState;
 
 public class Game implements Runnable
 {
@@ -23,6 +23,9 @@ public class Game implements Runnable
 	private Graphics g;
 	private Display display;
 	private KeyManager keyManager;
+	
+	private int gender;
+	private String name;
 
 	public Game(String title, int width, int height)
 	{
@@ -150,5 +153,25 @@ public class Game implements Runnable
 	public KeyManager getKeyManager()
 	{
 		return keyManager;
+	}
+	
+	public void setGender(int gender)
+	{
+		this.gender = gender;
+	}
+	
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+	
+	public int getGender()
+	{
+		return gender;
+	}
+	
+	public String getName()
+	{
+		return name;
 	}
 }

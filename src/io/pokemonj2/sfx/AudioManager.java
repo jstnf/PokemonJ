@@ -42,7 +42,7 @@ public class AudioManager
 			Clip clip = AudioSystem.getClip();
 	        AudioInputStream inputStream = AudioSystem.getAudioInputStream(AudioManager.class.getResourceAsStream(file));
 	        clip.open(inputStream);
-	        clip.start(); 
+	        clip.start();
 		}
 		catch (Exception e)
 		{
