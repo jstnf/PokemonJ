@@ -1,8 +1,8 @@
 # PokemonJ
 
-Pokemon (gen 3 mostly) in Java.
+Pokemon (gen 3 mostly, only gen 1 Pokemon) in Java. A battle simulator,
 <br>
 Thanks to:
-- LWJGL3
-- JOML 1.7.0
-- Warmful Development (tutorials on YT)
+- Spriters Resource
+- Sounds Resource
+- ... and lots of random YT clips!
