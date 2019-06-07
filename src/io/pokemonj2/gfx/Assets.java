@@ -139,25 +139,26 @@ public class Assets
 		r_ve = menuFrames.crop(22, 26, 8, 8);
 		fill = menuFrames.crop(13, 26, 8, 8);
 		
-		red_tl = menuFrames.crop(4, 17, 8, 8);
-		red_tr = menuFrames.crop(22, 17, 8, 8);
-		red_bl = menuFrames.crop(4, 35, 8, 8);
-		red_br = menuFrames.crop(22, 35, 8, 8);
-		red_t_ho = menuFrames.crop(13, 17, 8, 8);
-		red_b_ho = menuFrames.crop(13, 35, 8, 8);
-		red_l_ve = menuFrames.crop(4, 26, 8, 8);
-		red_r_ve = menuFrames.crop(22, 26, 8, 8);
-		red_fill = menuFrames.crop(13, 26, 8, 8);
+		menuFrames.replaceRGBWithTransparent(112, 200, 160);
+		red_tl = menuFrames.crop(64, 98, 8, 8);
+		red_tr = menuFrames.crop(82, 98, 8, 8);
+		red_bl = menuFrames.crop(64, 116, 8, 8);
+		red_br = menuFrames.crop(82, 116, 8, 8);
+		red_t_ho = menuFrames.crop(73, 98, 8, 8);
+		red_b_ho = menuFrames.crop(73, 116, 8, 8);
+		red_l_ve = menuFrames.crop(64, 107, 8, 8);
+		red_r_ve = menuFrames.crop(82, 107, 8, 8);
+		red_fill = menuFrames.crop(73, 107, 8, 8);
 		
-		blue_tl = menuFrames.crop(4, 17, 8, 8);
-		blue_tr = menuFrames.crop(22, 17, 8, 8);
-		blue_bl = menuFrames.crop(4, 35, 8, 8);
-		blue_br = menuFrames.crop(22, 35, 8, 8);
-		blue_t_ho = menuFrames.crop(13, 17, 8, 8);
-		blue_b_ho = menuFrames.crop(13, 35, 8, 8);
-		blue_l_ve = menuFrames.crop(4, 26, 8, 8);
-		blue_r_ve = menuFrames.crop(22, 26, 8, 8);
-		blue_fill = menuFrames.crop(13, 26, 8, 8);
+		blue_tl = menuFrames.crop(124, 98, 8, 8);
+		blue_tr = menuFrames.crop(142, 98, 8, 8);
+		blue_bl = menuFrames.crop(124, 116, 8, 8);
+		blue_br = menuFrames.crop(142, 116, 8, 8);
+		blue_t_ho = menuFrames.crop(133, 98, 8, 8);
+		blue_b_ho = menuFrames.crop(133, 116, 8, 8);
+		blue_l_ve = menuFrames.crop(124, 107, 8, 8);
+		blue_r_ve = menuFrames.crop(142, 107, 8, 8);
+		blue_fill = menuFrames.crop(133, 107, 8, 8);
 
 		/* Battle Sprites */
 		SpriteSheet backSprites = new SpriteSheet(ImageLoader.loadImage("/textures/sprites/battle-back-sprites.png"));

@@ -8,8 +8,8 @@ import io.pokemonj2.curtis.Trainer;
 import io.pokemonj2.gfx.Assets;
 import io.pokemonj2.gfx.Display;
 import io.pokemonj2.input.KeyManager;
+import io.pokemonj2.states.OutOfBattleState;
 import io.pokemonj2.states.State;
-import io.pokemonj2.states.TitleState;
 
 public class Game implements Runnable
 {
@@ -79,8 +79,9 @@ public class Game implements Runnable
 		display.getFrame().addKeyListener(keyManager);
 		Assets.init();
 
-		TitleState title = new TitleState(this);
-		State.setState(title);
+//		TitleState title = new TitleState(this);
+//		State.setState(title);
+		State.setState(new OutOfBattleState(this));
 	}
 
 	private void tick()
