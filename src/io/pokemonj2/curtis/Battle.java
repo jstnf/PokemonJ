@@ -8,11 +8,11 @@ public class Battle {
 	private Pokemon myPKMN;
 	private Pokemon oppPKMN;
 	private double[][] typeChart;
-	private Move[] moveDatabase;//size 125
+	private MoveDatabase allMoves;//size 125
 	
 	public Battle()
 	{
-		initializeMoves();
+		allMoves = new MoveDatabase();
 		initializeTypeChart();
 		initializePKMN(0);
 		initializePKMN(1);
@@ -48,15 +48,15 @@ public class Battle {
 				
 			if(myPKMNSpe >= oppPKMNSpe)//you always win speed tie
 			{
-				runMove(myPKMN, oppPKMN, moveDatabase[moves[input].getMoveNum()]);
+				runMove(myPKMN, oppPKMN, allMoves.get(moves[input].getMoveNum()));
 				if(!oppPKMN.isFainted)
-					runMove(oppPKMN, myPKMN, moveDatabase[oppPKMN.getCurrMoves()[oppMoveNum].getMoveNum()]);
+					runMove(oppPKMN, myPKMN, allMoves.get(oppPKMN.getCurrMoves()[oppMoveNum].getMoveNum()));
 			}
 			else
 			{
-				runMove(oppPKMN, myPKMN, moveDatabase[moves[oppMoveNum].getMoveNum()]);
+				runMove(oppPKMN, myPKMN, allMoves.get(moves[oppMoveNum].getMoveNum()));
 				if(!myPKMN.isFainted)
-					runMove(myPKMN, oppPKMN, moveDatabase[oppPKMN.getCurrMoves()[input].getMoveNum()]);
+					runMove(myPKMN, oppPKMN, allMoves.get(oppPKMN.getCurrMoves()[input].getMoveNum()));
 			}
 			
 			runStatus(myPKMN);
@@ -80,65 +80,6 @@ public class Battle {
 	public Pokemon getOpp()
 	{
 		return oppPKMN;
-	}
-	
-	private void initializeMoves()
-	{
-		moveDatabase = new Move[125];
-		try
-		{
-			Scanner scnr = new Scanner(new File("res\\data\\Moves.csv"));
-			while(scnr.hasNextLine())
-			{
-				String moveLine = scnr.nextLine();
-				int moveNum = Integer.parseInt(getMoveSubstring(moveLine));
-				moveLine = removeToComma(moveLine);
-				String moveName = getMoveSubstring(moveLine);
-				moveLine = removeToComma(moveLine);
-				
-				String moveType = getMoveSubstring(moveLine);
-				int moveTypeNum = getType(moveType);
-				moveLine = removeToComma(moveLine);
-				
-				int movePower = 0;
-				try {
-				movePower = Integer.parseInt(getMoveSubstring(moveLine));
-				}
-				catch(Exception e)
-				{ 				}
-				moveLine = removeToComma(moveLine);
-				
-				double moveAcc = 2;
-				try {
-					moveAcc = Double.parseDouble(getMoveSubstring(moveLine));
-					}
-					catch(Exception e)
-					{ 					}
-				moveLine = removeToComma(moveLine);
-				
-				int movePP = Integer.parseInt(getMoveSubstring(moveLine));
-				moveLine = removeToComma(moveLine);
-				
-				String moveTypeString = getMoveSubstring(moveLine);				
-				int moveCategory;
-				if(moveTypeString.equals("Physical"))
-					moveCategory = 0;
-				else if(moveTypeString.equals("Special"))
-					moveCategory = 1;
-				else
-					moveCategory = 2;
-				moveLine = removeToComma(moveLine);
-				
-				int moveSecondary = Integer.parseInt(moveLine);
-				
-				moveDatabase[moveNum - 1] = new Move(moveNum - 1, moveName, moveTypeNum, movePower, moveAcc,
-						movePP, moveCategory, moveSecondary);
-			}
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
 	}
 	
 	private void initializeTypeChart()
@@ -170,61 +111,7 @@ public class Battle {
 		}
 	}
 	
-	private String getMoveSubstring(String moveLine)
-	{
-		return moveLine.substring(0, moveLine.indexOf(","));
-	}
-	
-	private String removeToComma(String moveLine)
-	{
-		return moveLine.substring(moveLine.indexOf(",") + 1);
-	}
-	
-	private int getType(String moveType)
-	{
-		if(moveType.equals("0"))
-			return 0;
-		else if(moveType.equals("1"))
-			return 1;
-		if(moveType.equals("Normal"))
-			return 2;
-		else if(moveType.equals("Fighting"))
-			return 3;
-		else if(moveType.equals("Flying"))
-			return 4;
-		else if(moveType.equals("Poison"))
-			return 5;
-		else if(moveType.equals("Ground"))
-			return 6;
-		else if(moveType.equals("Rock"))
-			return 7;
-		else if(moveType.equals("Bug"))
-			return 8;
-		else if(moveType.equals("Ghost"))
-			return 9;
-		else if(moveType.equals("Steel"))
-			return 10;
-		else if(moveType.equals("Fire"))
-			return 11;
-		else if(moveType.equals("Water"))
-			return 12;
-		else if(moveType.equals("Grass"))
-			return 13;
-		else if(moveType.equals("Electric"))
-			return 14;
-		else if(moveType.equals("Psychic"))
-			return 15;
-		else if(moveType.equals("Ice"))
-			return 16;
-		else if(moveType.equals("Dragon"))
-			return 17;
-		else if(moveType.equals("Dark"))
-			return 18;
-		else
-			return 19;//Fairy
-	}
-	
-	private void initializePKMN(int whichOne)
+	private void initializePKMN(int whichOne)//might get rid of, moved to Trainer class
 	{
 		
 		try
@@ -239,7 +126,7 @@ public class Battle {
 			int type1 = scnr.nextInt();
 			int type2 = scnr.nextInt();
 			int[] stats = {scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt()};
-			Move[] moves = {moveDatabase[(int)(Math.random() * 125)], moveDatabase[(int)(Math.random() * 125)], moveDatabase[(int)(Math.random() * 125)], moveDatabase[(int)(Math.random() * 125)]};
+			Move[] moves = {allMoves.get((int)(Math.random() * 125)), allMoves.get((int)(Math.random() * 125)), allMoves.get((int)(Math.random() * 125)), allMoves.get((int)(Math.random() * 125))};
 			
 			if(whichOne == 0)
 			{
