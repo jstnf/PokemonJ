@@ -42,7 +42,7 @@ public class GameMenuState extends State
 			}
 			else
 			{
-				System.out.println("START GAME!");
+				State.setState(new WelcomeState(game));
 			}
 		}
 	}

@@ -16,6 +16,10 @@ public class Assets
 	/* Font */
 	public static BufferedImage[] charSet;
 	
+	/* Oak and Intro*/
+	public static BufferedImage oak;
+	public static BufferedImage intro_bg;
+	
 	/* Battle Assets */
 	public static BufferedImage battle_scene_grass;
 	public static ArrayList<BufferedImage> battleBackSprite, battleFrontSprite;
@@ -89,6 +93,13 @@ public class Assets
 		}
 		charSet[121] = font.crop(397, 71, 7, 13); // y
 		charSet[122] = font.crop(404, 71, 6, 13); // z
+		
+		/* Oak */
+		SpriteSheet oakSheet = new SpriteSheet(ImageLoader.loadImage("/textures/sprites/prof-oak.png"));
+		oakSheet.replaceRGBWithTransparent(0, 128, 128);
+		oak = oakSheet.crop(260, 4, 54, 85);
+		SpriteSheet introSheet = new SpriteSheet(ImageLoader.loadImage("/textures/intro-screens.png"));
+		intro_bg = introSheet.crop(5, 5, 239, 159);
 		
 		/* Battle Icons */
 		SpriteSheet battleIcons = new SpriteSheet(ImageLoader.loadImage("/textures/battle-icon.png"));

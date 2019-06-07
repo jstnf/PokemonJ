@@ -97,7 +97,7 @@ public class TitleState extends State
 		{
 			if (blackFadeTransparency < 1.5f)
 			{
-				blackFadeTransparency += 0.01f;
+				blackFadeTransparency += 0.02f;
 			}
 			else
 			{

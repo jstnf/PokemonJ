@@ -1,0 +1,9 @@
+Hello!
+Welcome to the world of Pokemon!
+
+My name is Professor Oak.
+I am a professor 
+researching Pokemon!
+
+Now to begin, are you 
+a boy or a girl?
