@@ -9,7 +9,6 @@ import io.pokemonj2.gfx.Display;
 import io.pokemonj2.input.KeyManager;
 import io.pokemonj2.states.State;
 import io.pokemonj2.states.TitleState;
-import io.pokemonj2.states.WelcomeState;
 
 public class Game implements Runnable
 {

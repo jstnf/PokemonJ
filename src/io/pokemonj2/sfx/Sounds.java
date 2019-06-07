@@ -14,7 +14,8 @@ public enum Sounds
 	CONFIRM("/sfx/firered_0005.wav"),
 	OPEN_MENU("/sfx/firered_0006.wav"),
 	SWITCH("/sfx/firered_0035.wav"),
-	SEND_OUT2("/sfx/firered_0036.wav");
+	SEND_OUT2("/sfx/firered_0036.wav"),
+	RECEIVE("/sfx/receive.wav");
 
 	private String path;
 

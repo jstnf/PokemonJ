@@ -173,7 +173,7 @@ public enum Pokenum
 		return name;
 	}
 	
-	public Pokenum fromDexNo(int num)
+	public static Pokenum fromDexNo(int num)
 	{
 		for (Pokenum p : values())
 		{
