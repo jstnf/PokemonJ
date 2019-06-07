@@ -5,10 +5,10 @@ import java.util.Scanner;
 
 public class Battle {
 	
-	Pokemon myPKMN;
-	Pokemon oppPKMN;
-	double[][] typeChart;
-	Move[] moveDatabase;//size 125
+	private Pokemon myPKMN;
+	private Pokemon oppPKMN;
+	private double[][] typeChart;
+	private Move[] moveDatabase;//size 125
 	
 	public Battle()
 	{
@@ -26,7 +26,7 @@ public class Battle {
 			Move[] moves = myPKMN.getCurrMoves();
 			for(int i = 0; i < 4; i++)
 				if(moves[i].getCurrPP() != 0)
-					System.out.println(i + ") " + moves[i].getMoveName());
+					System.out.println(i + ") " + moves[i].getMoveName() + " PP: " + moves[i].getCurrPP());
 			
 			Scanner scanner = new Scanner(System.in);
 			System.out.println("USE: ");
@@ -70,6 +70,16 @@ public class Battle {
 			System.out.print("YOU LOST");
 		else
 			System.out.print("YOU WON!");
+	}
+	
+	public Pokemon getMine()
+	{
+		return myPKMN;
+	}
+	
+	public Pokemon getOpp()
+	{
+		return oppPKMN;
 	}
 	
 	private void initializeMoves()
@@ -338,6 +348,7 @@ public class Battle {
 		if(canAttack) //canAttack is true to move on
 		{
 			System.out.println(attack.getName() + " used " + move.getMoveName() + "!");
+			move.decreasePP();
 			double acc = move.getAccuracy();
 			if(acc != 2 && Math.random() > acc)
 			{
