@@ -8,6 +8,7 @@ import java.util.Random;
 
 import io.pokemonj2.Game;
 import io.pokemonj2.gfx.Assets;
+import io.pokemonj2.sfx.AudioManager;
 
 public class TitleState extends State
 {
@@ -36,6 +37,8 @@ public class TitleState extends State
 		increasing = true;
 		scrollGenerateCounter = 0;
 		r = new Random();
+		
+		AudioManager.playMusic("/sfx/music/title-screen.wav");
 	}
 
 	@Override
@@ -86,7 +89,9 @@ public class TitleState extends State
 		if (game.getKeyManager().space && !startSequenceInit)
 		{
 			startSequenceInit = true;
-			System.out.println("Start sequence initiated!");
+			int soundIndex = r.nextInt(game.NUM_OF_POKEMON) + 1;
+			AudioManager.stopMusic();
+			AudioManager.playSound("/sfx/cries/" + soundIndex + ".wav");
 		}
 		else if (startSequenceInit)
 		{
