@@ -39,7 +39,7 @@ public class Pokemon {
 		currStatus = null;
 		statChanges = new int[8]; //Atk, Def, SpAtk, SpDef, Speed, Accuracy, Evasiveness, Crit
 		for(int i = 0; i < 7; i++)
-			statChanges[i] = 1;
+			statChanges[i] = 0;
 		isFainted = false;		
 	}
 	public String getName() {
@@ -75,7 +75,10 @@ public class Pokemon {
 	public void setCurrHP(int currHP) {
 		this.currHP = currHP;
 		if(currHP <= 0)
+		{
 			isFainted = true;
+			System.out.println(name + " fainted!");
+		}
 	}
 	
 	public Status getCurrStatus() {

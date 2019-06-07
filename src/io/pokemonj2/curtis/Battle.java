@@ -8,7 +8,7 @@ public class Battle {
 	Pokemon myPKMN;
 	Pokemon oppPKMN;
 	double[][] typeChart;
-	Move[] moveDatabase;//size 128
+	Move[] moveDatabase;//size 126
 	
 	public Battle()
 	{
@@ -34,7 +34,14 @@ public class Battle {
 			
 			int oppMoveNum = (int)(Math.random() * 4);
 			
-			if(myPKMN.getCurrStats()[5] >= oppPKMN.getCurrStats()[5])//you always win speed tie
+			int myPKMNSpe = myPKMN.getCurrStats()[5];
+			int oppPKMNSpe = oppPKMN.getCurrStats()[5];
+			if(myPKMN.getCurrStatus() == Status.PARALYSIS)
+				myPKMNSpe = myPKMNSpe / 2;
+			if(oppPKMN.getCurrStatus() == Status.PARALYSIS)
+				oppPKMNSpe = oppPKMNSpe / 2;
+				
+			if(myPKMNSpe >= oppPKMNSpe)//you always win speed tie
 			{
 				runMove(myPKMN, oppPKMN, moveDatabase[moves[input].getMoveNum()]);
 				if(!oppPKMN.isFainted)
@@ -46,6 +53,9 @@ public class Battle {
 				if(!myPKMN.isFainted)
 					runMove(myPKMN, oppPKMN, moveDatabase[oppPKMN.getCurrMoves()[input].getMoveNum()]);
 			}
+			
+			runStatus(myPKMN);
+			runStatus(oppPKMN);
 			
 			System.out.println("MY: " + myPKMN.getCurrHP());
 			System.out.println("OPP: " + oppPKMN.getCurrHP());
@@ -59,7 +69,7 @@ public class Battle {
 	
 	private void initializeMoves()
 	{
-		moveDatabase = new Move[128];
+		moveDatabase = new Move[126];
 		try
 		{
 			Scanner scnr = new Scanner(new File("res\\data\\Moves.csv"));
@@ -214,7 +224,7 @@ public class Battle {
 			int type1 = scnr.nextInt();
 			int type2 = scnr.nextInt();
 			int[] stats = {scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt()};
-			Move[] moves = {moveDatabase[(int)(Math.random() * 128)], moveDatabase[(int)(Math.random() * 128)], moveDatabase[(int)(Math.random() * 128)], moveDatabase[(int)(Math.random() * 128)]};
+			Move[] moves = {moveDatabase[(int)(Math.random() * 126)], moveDatabase[(int)(Math.random() * 126)], moveDatabase[(int)(Math.random() * 126)], moveDatabase[(int)(Math.random() * 126)]};
 			
 			if(whichOne == 0)
 			{
@@ -283,13 +293,152 @@ public class Battle {
 	
 	private void runMove(Pokemon attack, Pokemon defense, Move move)
 	{
-		System.out.println(attack.getName() + " used " + move.getMoveName() + "!");
-		int damage = damageCalc(myPKMN, oppPKMN, move);
-		if(move.getCategory() != 2)
+		boolean canAttack = true;
+		if(attack.getCurrStatus() == Status.SLEEP)//33% chance to wake up (not official)
+			if(Math.random() * 100 <= 33)
+			{
+				attack.setCurrStatus(null);
+				System.out.println(attack.getName() + " woke up!");
+			}
+			else
+			{
+				canAttack = false;
+				System.out.println(attack.getName() + " was asleep!");
+			}
+		else if(attack.getCurrStatus() == Status.FREEZE)
+			if(Math.random() * 100 <= 20)
+			{
+				attack.setCurrStatus(null);
+				System.out.println(attack.getName() + " thawed out!");
+			}
+			else
+			{
+				canAttack = false;
+				System.out.println(attack.getName() + " was frozen solid!");
+			}
+		else if(attack.getCurrStatus() == Status.PARALYSIS)
+			if(Math.random() * 100 <= 25)
+			{
+				canAttack = false;
+				System.out.println(attack.getName() + " was paralyzed!");
+			}
+		if(canAttack)
 		{
-			System.out.println(defense.getName() + " took " + damage + " damage!");
-			defense.setCurrHP(defense.getCurrHP() - damage);
+			System.out.println(attack.getName() + " used " + move.getMoveName() + "!");
+			if(move.getCategory() != 2)
+			{
+				int damage = damageCalc(myPKMN, oppPKMN, move);
+				System.out.println(defense.getName() + " took " + damage + " damage!");
+				defense.setCurrHP(defense.getCurrHP() - damage);
+			}
+			else
+			{
+				int secondaryEffect = move.getSecondaryEffect();
+				if(secondaryEffect < 4 && secondaryEffect > 0)
+				{
+					if(defense.getCurrStatus() != null)
+						System.out.println("But it failed...");
+					else
+					{
+						if(move.getSecondaryEffect() == 1)
+						{
+							defense.setCurrStatus(Status.PARALYSIS);
+							System.out.println(defense.getName() + " was paralyzed!");
+						}
+						else if(move.getSecondaryEffect() == 2)
+						{
+							defense.setCurrStatus(Status.POISON);
+							System.out.println(defense.getName() + " was poisoned!");
+						}
+						else if(move.getSecondaryEffect() == 3)
+						{
+							defense.setCurrStatus(Status.SLEEP);
+							System.out.println(defense.getName() + " fell asleep!");
+						}
+					}
+				}
+				else if(secondaryEffect == 4)
+				{
+					increaseStat(attack, 1, 1);
+					System.out.println(attack.getName() + "'s attack rose by " + 1 + "!");
+				}
+				else if(secondaryEffect == 5)
+				{
+					increaseStat(attack, 1, 2);
+					System.out.println(attack.getName() + "'s attack rose by " + 2 + "!");
+				}
+				else if(secondaryEffect == 6)
+				{
+					decreaseStat(attack, 1, 1);
+					System.out.println(attack.getName() + "'s attack fell by " + 1 + "!");
+				}
+				else if(secondaryEffect == 7)
+				{
+					decreaseStat(attack, 1, 2);
+					System.out.println(attack.getName() + "'s attack fell by " + 2 + "!");
+				}
+
+
+	//			4 - raise atk 1
+	//			5 - raise atk 2
+	//			6 - lower atk 1
+	//			7 - raise atk and satk 1
+	//			8 - raise def 1
+	//			9 - raise def 2
+	//			10 - lower def 1
+	//			11 - lower def 2
+	//			12 - raise sdef 2
+	//			13 - lower speed 1
+	//			14 - raise speed 2
+	//			15 - lower accuracy 1
+	//			16 - raise evasiveness 1
+	//			17 - raise evasiveness 2
+	//			18 - raise crit chance
+	//			19 - remove stat changes
+	//			20 - heal 50%	
+			}
 		}
 	}
-
+	
+	private void runStatus(Pokemon pkmn)
+	{
+		if(pkmn.getCurrStatus() == Status.BURN)
+		{
+			int damage = pkmn.getCurrStats()[0] / 8;
+			System.out.println(pkmn.getName() + " took " + damage + " from the burn!");
+			pkmn.setCurrHP(pkmn.getCurrHP() - damage);
+		}
+		else if(pkmn.getCurrStatus() == Status.POISON)
+		{
+			int damage = pkmn.getCurrStats()[0] / 8;
+			System.out.println(pkmn.getName() + " took " + damage + " from poison!");
+			pkmn.setCurrHP(pkmn.getCurrHP() - damage);
+		}
+	}
+	
+	private boolean increaseStat(Pokemon attack, int index, int amt)
+	{
+		if(attack.getStatChanges()[index] < 6)
+		{
+			attack.getStatChanges()[index] = attack.getStatChanges()[index] + amt;
+			if(attack.getStatChanges()[index] > 6)
+				attack.getStatChanges()[index] = 6;
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	private boolean decreaseStat(Pokemon defense, int index, int amt)
+	{
+		if(defense.getStatChanges()[index] > -6)
+		{
+			defense.getStatChanges()[index] = defense.getStatChanges()[index] - amt;
+			if(defense.getStatChanges()[index] < -6)
+				defense.getStatChanges()[index] = -6;
+			return true;
+		}
+		else
+			return false;
+	}
 }
