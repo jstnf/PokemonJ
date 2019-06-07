@@ -78,7 +78,6 @@ public class Game implements Runnable
 		Assets.init();
 		
 		TitleState title = new TitleState(this);
-		MenuState menu = new MenuState(this);
 		State.setState(title);
 	}
 
@@ -146,5 +145,10 @@ public class Game implements Runnable
 	public int getHeight()
 	{
 		return height;
+	}
+	
+	public KeyManager getKeyManager()
+	{
+		return keyManager;
 	}
 }
