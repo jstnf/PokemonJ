@@ -37,7 +37,7 @@ public class Pokemon {
 		this.currMoves = currMoves;
 		currHP = currStats[0];
 		currStatus = null;
-		statChanges = new int[7]; //Atk, Def, SpAtk, SpDef, Speed, Accuracy, Crit
+		statChanges = new int[8]; //Atk, Def, SpAtk, SpDef, Speed, Accuracy, Evasiveness, Crit
 		for(int i = 0; i < 7; i++)
 			statChanges[i] = 1;
 		isFainted = false;		

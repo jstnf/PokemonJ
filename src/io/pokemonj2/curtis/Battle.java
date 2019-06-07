@@ -8,7 +8,7 @@ public class Battle {
 	Pokemon myPKMN;
 	Pokemon oppPKMN;
 	double[][] typeChart;
-	Move[] moveDatabase;//size 132
+	Move[] moveDatabase;//size 128
 	
 	public Battle()
 	{
@@ -37,12 +37,14 @@ public class Battle {
 			if(myPKMN.getCurrStats()[5] >= oppPKMN.getCurrStats()[5])//you always win speed tie
 			{
 				runMove(myPKMN, oppPKMN, moveDatabase[moves[input].getMoveNum()]);
-				runMove(oppPKMN, myPKMN, moveDatabase[moves[oppMoveNum].getMoveNum()]);
+				if(!oppPKMN.isFainted)
+					runMove(oppPKMN, myPKMN, moveDatabase[oppPKMN.getCurrMoves()[oppMoveNum].getMoveNum()]);
 			}
 			else
 			{
 				runMove(oppPKMN, myPKMN, moveDatabase[moves[oppMoveNum].getMoveNum()]);
-				runMove(myPKMN, oppPKMN, moveDatabase[moves[input].getMoveNum()]);
+				if(!myPKMN.isFainted)
+					runMove(myPKMN, oppPKMN, moveDatabase[oppPKMN.getCurrMoves()[input].getMoveNum()]);
 			}
 			
 			System.out.println("MY: " + myPKMN.getCurrHP());
@@ -57,7 +59,7 @@ public class Battle {
 	
 	private void initializeMoves()
 	{
-		moveDatabase = new Move[132];
+		moveDatabase = new Move[128];
 		try
 		{
 			Scanner scnr = new Scanner(new File("res\\data\\Moves.csv"));
@@ -212,7 +214,7 @@ public class Battle {
 			int type1 = scnr.nextInt();
 			int type2 = scnr.nextInt();
 			int[] stats = {scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt()};
-			Move[] moves = {moveDatabase[(int)(Math.random() * 132)], moveDatabase[(int)(Math.random() * 132)], moveDatabase[(int)(Math.random() * 132)], moveDatabase[(int)(Math.random() * 132)]};
+			Move[] moves = {moveDatabase[(int)(Math.random() * 128)], moveDatabase[(int)(Math.random() * 128)], moveDatabase[(int)(Math.random() * 128)], moveDatabase[(int)(Math.random() * 128)]};
 			
 			if(whichOne == 0)
 			{
@@ -247,20 +249,29 @@ public class Battle {
 			
 			double criticalHit = 1;
 			if(Math.random() < .0625)
+			{
 				criticalHit = 1.5;
+				System.out.println("A critical hit!");
+			}
 			
-			int random = (int)(Math.random() * 100 + 1) / 100;
+			double random = (int)(Math.random() * 100 + 1) / 100.0;
 			
 			double stab = 1;
 			if(move.getType() == attack.getType1() || move.getType() == attack.getType2())
 				stab = 1.5;
 			
 			double effective = typeChart[move.getType()][defense.getType1()] * typeChart[move.getType()][defense.getType2()];
+			if(effective > 1)
+				System.out.println("It's super effective!");
+			else if(effective < 0)
+				System.out.println("But it had no effect...");
+			else if(effective < 1)
+				System.out.println("But it was not very effective...");
+			
 			
 			double burn = 1;
 			if(attack.getCurrStatus() != null && attack.getCurrStatus().equals("BURN"))
 				burn = .5;
-			
 			
 			double modifier = criticalHit * random * stab * effective * burn;
 			
@@ -272,8 +283,8 @@ public class Battle {
 	
 	private void runMove(Pokemon attack, Pokemon defense, Move move)
 	{
-		int damage = damageCalc(myPKMN, oppPKMN, move);
 		System.out.println(attack.getName() + " used " + move.getMoveName() + "!");
+		int damage = damageCalc(myPKMN, oppPKMN, move);
 		if(move.getCategory() != 2)
 		{
 			System.out.println(defense.getName() + " took " + damage + " damage!");
