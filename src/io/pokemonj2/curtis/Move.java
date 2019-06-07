@@ -27,6 +27,10 @@ public class Move {
 	public int getMoveNum() {
 		return moveNum;
 	}
+	
+	public String getMoveName() {
+		return moveName;
+	}
 
 	public int getType() {
 		return type;

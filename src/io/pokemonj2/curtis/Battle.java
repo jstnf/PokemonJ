@@ -1,18 +1,58 @@
 package io.pokemonj2.curtis;
 
+import java.io.File;
 import java.util.Scanner;
 
 public class Battle {
 	
 	Pokemon myPKMN;
 	Pokemon oppPKMN;
-	int[][] typeChart;
+	double[][] typeChart;
 	Move[] moveDatabase;//size 132
 	
 	public Battle()
 	{
 		initializeMoves();
 		initializeTypeChart();
+		initializePKMN(0);
+		initializePKMN(1);
+	}
+	
+	public void runTurn()
+	{
+		while(!myPKMN.isFainted && !oppPKMN.isFainted)
+		{
+			System.out.println("Moves: ");
+			Move[] moves = myPKMN.getCurrMoves();
+			for(int i = 0; i < 4; i++)
+				if(moves[i].getCurrPP() != 0)
+					System.out.println(i + ") " + moves[i].getMoveName());
+			
+			Scanner scanner = new Scanner(System.in);
+			System.out.println("USE: ");
+			int input = scanner.nextInt(); //GUI will stop errors
+			
+			int oppMoveNum = (int)(Math.random() * 4);
+			
+			if(myPKMN.getCurrStats()[5] >= oppPKMN.getCurrStats()[5])//you always win speed tie
+			{
+				runMove(myPKMN, oppPKMN, moveDatabase[moves[input].getMoveNum()]);
+				runMove(oppPKMN, myPKMN, moveDatabase[moves[oppMoveNum].getMoveNum()]);
+			}
+			else
+			{
+				runMove(oppPKMN, myPKMN, moveDatabase[moves[oppMoveNum].getMoveNum()]);
+				runMove(myPKMN, oppPKMN, moveDatabase[moves[input].getMoveNum()]);
+			}
+			
+			System.out.println("MY: " + myPKMN.getCurrHP());
+			System.out.println("OPP: " + oppPKMN.getCurrHP());
+		}
+		
+		if(myPKMN.isFainted)
+			System.out.print("YOU LOST");
+		else
+			System.out.print("YOU WON!");
 	}
 	
 	private void initializeMoves()
@@ -20,12 +60,12 @@ public class Battle {
 		moveDatabase = new Move[132];
 		try
 		{
-			Scanner scnr = new Scanner("data\\Moves.csv");
+			Scanner scnr = new Scanner(new File("res\\data\\Moves.csv"));
 			while(scnr.hasNextLine())
 			{
 				String moveLine = scnr.nextLine();
-				int moveNum = Integer.parseInt(moveLine.substring(0, 1));
-				moveLine = moveLine.substring(2);
+				int moveNum = Integer.parseInt(getMoveSubstring(moveLine));
+				moveLine = removeToComma(moveLine);
 				String moveName = getMoveSubstring(moveLine);
 				moveLine = removeToComma(moveLine);
 				
@@ -52,7 +92,7 @@ public class Battle {
 				int movePP = Integer.parseInt(getMoveSubstring(moveLine));
 				moveLine = removeToComma(moveLine);
 				
-				String moveTypeString = getMoveSubstring(moveLine);
+				String moveTypeString = getMoveSubstring(moveLine);				
 				int moveCategory;
 				if(moveTypeString.equals("Physical"))
 					moveCategory = 0;
@@ -62,7 +102,7 @@ public class Battle {
 					moveCategory = 2;
 				moveLine = removeToComma(moveLine);
 				
-				int moveSecondary = Integer.parseInt(getMoveSubstring(moveLine));
+				int moveSecondary = Integer.parseInt(moveLine);
 				
 				moveDatabase[moveNum - 1] = new Move(moveNum - 1, moveName, moveTypeNum, movePower, moveAcc,
 						movePP, moveCategory, moveSecondary);
@@ -70,36 +110,36 @@ public class Battle {
 		}
 		catch(Exception e)
 		{
-			System.out.println("WELP");
+			e.printStackTrace();
 		}
 	}
 	
 	private void initializeTypeChart()
 	{
-		typeChart = new int[20][20];
+		typeChart = new double[20][20];
 		try
 		{
-			Scanner scnr = new Scanner("data\\Type Chart.csv");
+			Scanner scnr = new Scanner(new File("res\\data\\Types Matrix.csv"));
 			for(int i = 0; i < typeChart.length; i++)
 			{
 				String line = scnr.nextLine();
 				for(int j = 0; j < typeChart[0].length; j++)
 				{
-					if(line.length() != 1)
+					if(j != typeChart[0].length - 1)
 					{
 						int index = line.indexOf(",");
-						typeChart[i][j] = Integer.parseInt(line.substring(0, index));
+						typeChart[i][j] = Double.parseDouble(line.substring(0, index));
 						line = line.substring(index + 1);
 					}
 					else
-						typeChart[i][j] = Integer.parseInt(line);
+						typeChart[i][j] = Double.parseDouble(line);
 				}
 			}
 			
 		}
 		catch(Exception e)
 		{
-			System.out.println("Type");
+			e.printStackTrace();
 		}
 	}
 	
@@ -155,6 +195,90 @@ public class Battle {
 			return 18;
 		else
 			return 19;//Fairy
+	}
+	
+	private void initializePKMN(int whichOne)
+	{
+		
+		try
+		{
+			int num = (int)(Math.random() * 151) + 1;
+			String number = Integer.toString(num);
+			while(number.length() != 3)
+				number = "0" + number;
+			Scanner scnr = new Scanner(new File("res\\data\\pokemon\\" + number + ".txt"));
+			scnr.nextLine();
+			String name = scnr.nextLine();
+			int type1 = scnr.nextInt();
+			int type2 = scnr.nextInt();
+			int[] stats = {scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt()};
+			Move[] moves = {moveDatabase[(int)(Math.random() * 132)], moveDatabase[(int)(Math.random() * 132)], moveDatabase[(int)(Math.random() * 132)], moveDatabase[(int)(Math.random() * 132)]};
+			
+			if(whichOne == 0)
+			{
+				myPKMN = new Pokemon(name, type1, type2, stats, moves, 50);
+				System.out.println("My PKMN is " + name);
+			}
+			else
+			{
+				oppPKMN = new Pokemon(name, type1, type2, stats, moves, 50);
+				System.out.println("Their PKMN is " + name);
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	private int damageCalc(Pokemon attack, Pokemon defense, Move move)
+	{
+		if(move.getCategory() == 2)//status
+		{
+			return 0;
+		}
+		else
+		{
+			double damage;
+			if(move.getCategory() == 0)//physical
+				damage = (((2 * attack.getLevel() / 5) + 2) * move.getDamage() * attack.getCurrStats()[1] / defense.getCurrStats()[2])/50 + 2;				
+			else//special
+				damage = (((2 * attack.getLevel() / 5) + 2) * move.getDamage() * attack.getCurrStats()[3] / defense.getCurrStats()[4])/50 + 2;
+			
+			double criticalHit = 1;
+			if(Math.random() < .0625)
+				criticalHit = 1.5;
+			
+			int random = (int)(Math.random() * 100 + 1) / 100;
+			
+			double stab = 1;
+			if(move.getType() == attack.getType1() || move.getType() == attack.getType2())
+				stab = 1.5;
+			
+			double effective = typeChart[move.getType()][defense.getType1()] * typeChart[move.getType()][defense.getType2()];
+			
+			double burn = 1;
+			if(attack.getCurrStatus() != null && attack.getCurrStatus().equals("BURN"))
+				burn = .5;
+			
+			
+			double modifier = criticalHit * random * stab * effective * burn;
+			
+			damage = damage * modifier;
+			
+			return (int)damage;
+		}
+	}
+	
+	private void runMove(Pokemon attack, Pokemon defense, Move move)
+	{
+		int damage = damageCalc(myPKMN, oppPKMN, move);
+		System.out.println(attack.getName() + " used " + move.getMoveName() + "!");
+		if(move.getCategory() != 2)
+		{
+			System.out.println(defense.getName() + " took " + damage + " damage!");
+			defense.setCurrHP(defense.getCurrHP() - damage);
+		}
 	}
 
 }

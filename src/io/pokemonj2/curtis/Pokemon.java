@@ -9,27 +9,37 @@ public class Pokemon {
 	private String name;
 	private int type1;
 	private int type2; 
-	private Map<Integer, Move> moveset; 
+//	private Map<Integer, Move> moveset;
+	private int level;
 	private int[] baseStats;
+	private int[] currStats;//hp is the max HP
 	private Move[] currMoves;
 	private int currHP;
 	private Status currStatus;
 	private int[] statChanges;
-	private int level;
 	boolean isFainted;
-	public Pokemon(String name, int type1, int type2, Map<Integer, Move> moveset, 
-			int[] baseStats, Move[] currMoves, int maxHP, Status currStatus, int level)
+	public Pokemon(String name, int type1, int type2, 
+//			Map<Integer, Move> moveset, 
+			int[] baseStats, Move[] currMoves, int level)
 	{
 		this.name = name;
 		this.type1 = type1;
 		this.type2 = type2;
-		this.moveset = moveset;
-		this.baseStats = baseStats;
-		this.currMoves = currMoves;
-		currHP = maxHP;
-		this.currStatus = currStatus;
-		statChanges = new int[8]; //start at 0
+//		this.moveset = moveset;
 		this.level = level;
+		
+		this.baseStats = baseStats;
+		currStats = new int[6];
+		currStats[0] = baseStats[0] / 50 + level + 10;
+		for(int i = 1; i < 6; i++)
+			currStats[i] = baseStats[i] / 50 + 5;
+		
+		this.currMoves = currMoves;
+		currHP = currStats[0];
+		currStatus = null;
+		statChanges = new int[7]; //Atk, Def, SpAtk, SpDef, Speed, Accuracy, Crit
+		for(int i = 0; i < 7; i++)
+			statChanges[i] = 1;
 		isFainted = false;		
 	}
 	public String getName() {
@@ -44,15 +54,12 @@ public class Pokemon {
 		return type2;
 	}
 
-	public Map<Integer, Move> getMoveset() {
-		return moveset;
-	}
+//	public Map<Integer, Move> getMoveset() {
+//		return moveset;
+//	}
 
-	public int[] getBaseStats() {
-		return baseStats;
-	}
-	public void setBaseStats(int[] baseStats) {
-		this.baseStats = baseStats;
+	public int[] getCurrStats() {
+		return currStats;
 	}
 	
 	public Move[] getCurrMoves() {
@@ -67,6 +74,8 @@ public class Pokemon {
 	}
 	public void setCurrHP(int currHP) {
 		this.currHP = currHP;
+		if(currHP <= 0)
+			isFainted = true;
 	}
 	
 	public Status getCurrStatus() {
