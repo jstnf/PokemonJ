@@ -80,7 +80,21 @@ public class Battle {
 		try
 		{
 			Scanner scnr = new Scanner("data\\Type Chart.csv");
-			
+			for(int i = 0; i < typeChart.length; i++)
+			{
+				String line = scnr.nextLine();
+				for(int j = 0; j < typeChart[0].length; j++)
+				{
+					if(line.length() != 1)
+					{
+						int index = line.indexOf(",");
+						typeChart[i][j] = Integer.parseInt(line.substring(0, index));
+						line = line.substring(index + 1);
+					}
+					else
+						typeChart[i][j] = Integer.parseInt(line);
+				}
+			}
 			
 		}
 		catch(Exception e)
