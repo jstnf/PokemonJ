@@ -40,6 +40,11 @@ public class Battle {
 				myPKMNSpe = myPKMNSpe / 2;
 			if(oppPKMN.getCurrStatus() == Status.PARALYSIS)
 				oppPKMNSpe = oppPKMNSpe / 2;
+
+			double aSpeedMultiplier = calculateMultiplier(myPKMN.getStatChanges()[5]);
+			myPKMNSpe = (int)(myPKMNSpe * aSpeedMultiplier);
+			double dSpeedMultiplier = calculateMultiplier(myPKMN.getStatChanges()[5]);
+			oppPKMNSpe = (int)(oppPKMNSpe * dSpeedMultiplier);
 				
 			if(myPKMNSpe >= oppPKMNSpe)//you always win speed tie
 			{
@@ -253,10 +258,18 @@ public class Battle {
 		{
 			double damage;
 			if(move.getCategory() == 0)//physical
-				damage = (((2 * attack.getLevel() / 5) + 2) * move.getDamage() * attack.getCurrStats()[1] / defense.getCurrStats()[2])/50 + 2;				
+			{
+				double attackMultiplier = calculateMultiplier(attack.getStatChanges()[1]);
+				double defenseMultiplier = calculateMultiplier(defense.getStatChanges()[2]);
+				damage = (((2 * attack.getLevel() / 5) + 2) * move.getDamage() * attack.getCurrStats()[1] * attackMultiplier / (defense.getCurrStats()[2] * defenseMultiplier))/50 + 2;				
+			}
 			else//special
-				damage = (((2 * attack.getLevel() / 5) + 2) * move.getDamage() * attack.getCurrStats()[3] / defense.getCurrStats()[4])/50 + 2;
+			{
+				double attackMultiplier = calculateMultiplier(attack.getStatChanges()[3]);
+				double defenseMultiplier = calculateMultiplier(defense.getStatChanges()[5]);
+				damage = (((2 * attack.getLevel() / 5) + 2) * move.getDamage() * attack.getCurrStats()[3] * attackMultiplier / (defense.getCurrStats()[4] * defenseMultiplier))/50 + 2;
 			
+			}
 			double criticalHit = 1;
 			if(Math.random() < .0625)
 			{
@@ -322,80 +335,90 @@ public class Battle {
 				canAttack = false;
 				System.out.println(attack.getName() + " was paralyzed!");
 			}
-		if(canAttack)
+		if(canAttack) //canAttack is true to move on
 		{
 			System.out.println(attack.getName() + " used " + move.getMoveName() + "!");
-			if(move.getCategory() != 2)
+			double acc = move.getAccuracy();
+			if(acc != 2 && Math.random() > acc)
 			{
-				int damage = damageCalc(myPKMN, oppPKMN, move);
-				System.out.println(defense.getName() + " took " + damage + " damage!");
-				defense.setCurrHP(defense.getCurrHP() - damage);
+				canAttack = false;
+				System.out.println("But it missed...");
 			}
-			else
+			if(canAttack)
 			{
-				int secondaryEffect = move.getSecondaryEffect();
-				if(secondaryEffect < 4 && secondaryEffect > 0)
+				if(move.getCategory() != 2)
 				{
-					if(defense.getCurrStatus() != null)
-						System.out.println("But it failed...");
-					else
+					int damage = damageCalc(myPKMN, oppPKMN, move);
+					System.out.println(defense.getName() + " took " + damage + " damage!");
+					defense.setCurrHP(defense.getCurrHP() - damage);
+				}
+				else
+				{
+					int secondaryEffect = move.getSecondaryEffect();
+					if(secondaryEffect < 4 && secondaryEffect > 0)
 					{
-						if(move.getSecondaryEffect() == 1)
+						if(defense.getCurrStatus() != null)
+							System.out.println("But it failed...");
+						else
 						{
-							defense.setCurrStatus(Status.PARALYSIS);
-							System.out.println(defense.getName() + " was paralyzed!");
-						}
-						else if(move.getSecondaryEffect() == 2)
-						{
-							defense.setCurrStatus(Status.POISON);
-							System.out.println(defense.getName() + " was poisoned!");
-						}
-						else if(move.getSecondaryEffect() == 3)
-						{
-							defense.setCurrStatus(Status.SLEEP);
-							System.out.println(defense.getName() + " fell asleep!");
+							if(move.getSecondaryEffect() == 1)
+							{
+								defense.setCurrStatus(Status.PARALYSIS);
+								System.out.println(defense.getName() + " was paralyzed!");
+							}
+							else if(move.getSecondaryEffect() == 2)
+							{
+								defense.setCurrStatus(Status.POISON);
+								System.out.println(defense.getName() + " was poisoned!");
+							}
+							else if(move.getSecondaryEffect() == 3)
+							{
+								defense.setCurrStatus(Status.SLEEP);
+								System.out.println(defense.getName() + " fell asleep!");
+							}
 						}
 					}
+					else if(secondaryEffect == 4)
+					{
+						increaseStat(attack, 1, 1);
+						System.out.println(attack.getName() + "'s attack rose by " + 1 + "!");
+					}
+					else if(secondaryEffect == 5)
+					{
+						increaseStat(attack, 1, 2);
+						System.out.println(attack.getName() + "'s attack rose by " + 2 + "!");
+					}
+					else if(secondaryEffect == 6)
+					{
+						decreaseStat(attack, 1, 1);
+						System.out.println(attack.getName() + "'s attack fell by " + 1 + "!");
+					}
+					else if(secondaryEffect == 7)
+					{
+						increaseStat(attack, 1, 1);
+						increaseStat(attack, 3, 1);
+						System.out.println(attack.getName() + "'s attack and special attack rose by " + 1 + "!");
+					}
+	
+	
+		//			4 - raise atk 1
+		//			5 - raise atk 2
+		//			6 - lower atk 1
+		//			7 - raise atk and satk 1
+		//			8 - raise def 1
+		//			9 - raise def 2
+		//			10 - lower def 1
+		//			11 - lower def 2
+		//			12 - raise sdef 2
+		//			13 - lower speed 1
+		//			14 - raise speed 2
+		//			15 - lower accuracy 1
+		//			16 - raise evasiveness 1
+		//			17 - raise evasiveness 2
+		//			18 - raise crit chance
+		//			19 - remove stat changes
+		//			20 - heal 50%	
 				}
-				else if(secondaryEffect == 4)
-				{
-					increaseStat(attack, 1, 1);
-					System.out.println(attack.getName() + "'s attack rose by " + 1 + "!");
-				}
-				else if(secondaryEffect == 5)
-				{
-					increaseStat(attack, 1, 2);
-					System.out.println(attack.getName() + "'s attack rose by " + 2 + "!");
-				}
-				else if(secondaryEffect == 6)
-				{
-					decreaseStat(attack, 1, 1);
-					System.out.println(attack.getName() + "'s attack fell by " + 1 + "!");
-				}
-				else if(secondaryEffect == 7)
-				{
-					decreaseStat(attack, 1, 2);
-					System.out.println(attack.getName() + "'s attack fell by " + 2 + "!");
-				}
-
-
-	//			4 - raise atk 1
-	//			5 - raise atk 2
-	//			6 - lower atk 1
-	//			7 - raise atk and satk 1
-	//			8 - raise def 1
-	//			9 - raise def 2
-	//			10 - lower def 1
-	//			11 - lower def 2
-	//			12 - raise sdef 2
-	//			13 - lower speed 1
-	//			14 - raise speed 2
-	//			15 - lower accuracy 1
-	//			16 - raise evasiveness 1
-	//			17 - raise evasiveness 2
-	//			18 - raise crit chance
-	//			19 - remove stat changes
-	//			20 - heal 50%	
 			}
 		}
 	}
@@ -440,5 +463,15 @@ public class Battle {
 		}
 		else
 			return false;
+	}
+	
+	private double calculateMultiplier(int statChange)
+	{
+		if(statChange > 0)
+			return (statChange + 2) / 2;
+		else if(statChange < 0)
+			return 2 / (statChange + 2);
+		else
+			return 1;
 	}
 }
