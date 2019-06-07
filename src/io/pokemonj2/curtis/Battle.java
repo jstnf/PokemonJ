@@ -1,5 +1,5 @@
 package io.pokemonj2.curtis;
-
+//add accuracy, evasion, crit hit, PP
 import java.io.File;
 import java.util.Scanner;
 
@@ -8,7 +8,7 @@ public class Battle {
 	Pokemon myPKMN;
 	Pokemon oppPKMN;
 	double[][] typeChart;
-	Move[] moveDatabase;//size 126
+	Move[] moveDatabase;//size 125
 	
 	public Battle()
 	{
@@ -74,7 +74,7 @@ public class Battle {
 	
 	private void initializeMoves()
 	{
-		moveDatabase = new Move[126];
+		moveDatabase = new Move[125];
 		try
 		{
 			Scanner scnr = new Scanner(new File("res\\data\\Moves.csv"));
@@ -229,7 +229,7 @@ public class Battle {
 			int type1 = scnr.nextInt();
 			int type2 = scnr.nextInt();
 			int[] stats = {scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt()};
-			Move[] moves = {moveDatabase[(int)(Math.random() * 126)], moveDatabase[(int)(Math.random() * 126)], moveDatabase[(int)(Math.random() * 126)], moveDatabase[(int)(Math.random() * 126)]};
+			Move[] moves = {moveDatabase[(int)(Math.random() * 125)], moveDatabase[(int)(Math.random() * 125)], moveDatabase[(int)(Math.random() * 125)], moveDatabase[(int)(Math.random() * 125)]};
 			
 			if(whichOne == 0)
 			{
@@ -266,7 +266,7 @@ public class Battle {
 			else//special
 			{
 				double attackMultiplier = calculateMultiplier(attack.getStatChanges()[3]);
-				double defenseMultiplier = calculateMultiplier(defense.getStatChanges()[5]);
+				double defenseMultiplier = calculateMultiplier(defense.getStatChanges()[4]);
 				damage = (((2 * attack.getLevel() / 5) + 2) * move.getDamage() * attack.getCurrStats()[3] * attackMultiplier / (defense.getCurrStats()[4] * defenseMultiplier))/50 + 2;
 			
 			}
@@ -390,8 +390,8 @@ public class Battle {
 					}
 					else if(secondaryEffect == 6)
 					{
-						decreaseStat(attack, 1, 1);
-						System.out.println(attack.getName() + "'s attack fell by " + 1 + "!");
+						decreaseStat(defense, 1, 1);
+						System.out.println(defense.getName() + "'s attack fell by " + 1 + "!");
 					}
 					else if(secondaryEffect == 7)
 					{
@@ -399,25 +399,87 @@ public class Battle {
 						increaseStat(attack, 3, 1);
 						System.out.println(attack.getName() + "'s attack and special attack rose by " + 1 + "!");
 					}
-	
-	
-		//			4 - raise atk 1
-		//			5 - raise atk 2
-		//			6 - lower atk 1
-		//			7 - raise atk and satk 1
-		//			8 - raise def 1
-		//			9 - raise def 2
-		//			10 - lower def 1
-		//			11 - lower def 2
-		//			12 - raise sdef 2
-		//			13 - lower speed 1
-		//			14 - raise speed 2
-		//			15 - lower accuracy 1
-		//			16 - raise evasiveness 1
-		//			17 - raise evasiveness 2
-		//			18 - raise crit chance
-		//			19 - remove stat changes
-		//			20 - heal 50%	
+					else if(secondaryEffect == 8)
+					{
+						increaseStat(attack, 2, 1);
+						System.out.println(attack.getName() + "'s defense rose by " + 1 + "!");
+					}
+					else if(secondaryEffect == 9)
+					{
+						increaseStat(attack, 2, 2);
+						System.out.println(attack.getName() + "'s defense rose by " + 2 + "!");
+					}
+					else if(secondaryEffect == 10)
+					{
+						decreaseStat(defense, 2, 1);
+						System.out.println(defense.getName() + "'s defense fell by " + 1 + "!");
+					}
+					else if(secondaryEffect == 11)
+					{
+						decreaseStat(defense, 2, 2);
+						System.out.println(defense.getName() + "'s defense fell by " + 2 + "!");
+					}
+					else if(secondaryEffect == 12)
+					{
+						increaseStat(attack, 4, 2);
+						System.out.println(attack.getName() + "'s special defense rose by " + 2 + "!");
+					}
+					else if(secondaryEffect == 13)
+					{
+						decreaseStat(defense, 5, 1);
+						System.out.println(defense.getName() + "'s speed fell by " + 1 + "!");
+					}
+					else if(secondaryEffect == 14)
+					{
+						increaseStat(attack, 5, 2);
+						System.out.println(attack.getName() + "'s speed rose by " + 2 + "!");
+					}
+					else if(secondaryEffect == 15)
+					{
+						decreaseStat(defense, 6, 1);
+						System.out.println(defense.getName() + "'s accuracy fell by " + 1 + "!");
+					}
+					else if(secondaryEffect == 16)
+					{
+						increaseStat(attack, 7, 1);
+						System.out.println(attack.getName() + "'s evasiveness rose by " + 1 + "!");
+					}
+					else if(secondaryEffect == 17)
+					{
+						increaseStat(attack, 7, 2);
+						System.out.println(attack.getName() + "'s evasiveness rose by " + 2 + "!");
+					}
+					else if(secondaryEffect == 18)//critical hit
+					{
+						if(attack.getStatChanges()[8] < 4)
+						{
+							attack.getStatChanges()[8] = attack.getStatChanges()[8] + 1;
+							if(attack.getStatChanges()[8] > 4)
+								attack.getStatChanges()[8] = 4;
+							System.out.println(attack.getName() + "'s critical hit chance rose by " + 1 + "!");
+						}
+						else
+							System.out.println(attack.getName() + "'s critical hit chance is maxed out!");
+					}
+					else if(secondaryEffect == 19) //remove stat changes on field
+					{
+						for(int i = 0; i < 8; i++)
+						{
+							attack.getStatChanges()[i] = 0;
+							defense.getStatChanges()[i] = 0;
+						}
+						System.out.println("All stat changes were reset.");
+					}
+					else if(secondaryEffect == 20)
+					{
+						if(attack.getCurrHP() == attack.getCurrStats()[0])
+							System.out.println(attack.getName() + " is already at full health.");
+						else
+						{
+							attack.setCurrHP((int)(attack.getCurrHP() * 1.5));
+							System.out.println(attack.getName() + " healed HP!");
+						}
+					}
 				}
 			}
 		}

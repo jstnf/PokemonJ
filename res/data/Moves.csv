@@ -90,37 +90,36 @@
 90,Barrier,Psychic,—,—,20,Status,9
 91,Haze,Ice,—,—,30,Status,19
 92,Focus Energy,Normal,—,—,30,Status,18
-93,Self-Destruct,Normal,200,1,5,Physical,0
-94,Egg Bomb,Normal,100,0.75,10,Physical,0
-95,Lick,Ghost,30,1,30,Physical,0
-96,Smog,Poison,30,0.7,20,Special,0
-97,Sludge,Poison,65,1,20,Special,0
-98,Bone Club,Ground,65,0.85,20,Physical,0
-99,Fire Blast,Fire,110,0.85,5,Special,0
-100,Waterfall,Water,80,1,15,Physical,0
-101,Swift,Normal,60,—,20,Special,0
-102,Skull Bash,Normal,130,1,10,Physical,0
-103,Spike Cannon,Normal,20,1,15,Physical,0
-104,Constrict,Normal,10,1,35,Physical,0
-105,Amnesia,Psychic,—,—,20,Status,12
-106,Kinesis,Psychic,—,0.8,15,Status,15
-107,Soft-Boiled,Normal,—,—,10,Status,20
-108,High Jump Kick,Fighting,130,0.9,10,Physical,0
-109,Glare,Normal,—,1,30,Status,1
-110,Poison Gas,Poison,—,.9,40,Status,2
-111,Barrage,Normal,15,0.85,20,Physical,0
-112,Leech Life,Bug,80,1,10,Physical,0
-113,Sky Attack,Flying,200,0.9,5,Physical,0
-114,Bubble,Water,40,1,30,Special,0
-115,Dizzy Punch,Normal,70,1,10,Physical,0
-116,Spore,Grass,—,1,15,Status,3
-117,Flash,Normal,—,1,20,Status,15
-118,Acid Armor,Poison,—,—,20,Status,9
-119,Crabhammer,Water,100,.9,10,Physical,0
-120,Fury Swipes,Normal,18,0.8,15,Physical,0
-121,Bonemerang,Ground,50,0.9,10,Physical,0
-122,Rock Slide,Rock,75,0.9,10,Physical,0
-123,Hyper Fang,Normal,80,0.9,15,Physical,0
-124,Sharpen,Normal,—,—,30,Status,4
-125,Tri Attack,Normal,80,1,10,Special,0
-126,Slash,Normal,70,1,20,Physical,0
+93,Egg Bomb,Normal,100,0.75,10,Physical,0
+94,Lick,Ghost,30,1,30,Physical,0
+95,Smog,Poison,30,0.7,20,Special,0
+96,Sludge,Poison,65,1,20,Special,0
+97,Bone Club,Ground,65,0.85,20,Physical,0
+98,Fire Blast,Fire,110,0.85,5,Special,0
+99,Waterfall,Water,80,1,15,Physical,0
+100,Swift,Normal,60,—,20,Special,0
+101,Skull Bash,Normal,130,1,10,Physical,0
+102,Spike Cannon,Normal,20,1,15,Physical,0
+103,Constrict,Normal,10,1,35,Physical,0
+104,Amnesia,Psychic,—,—,20,Status,12
+105,Kinesis,Psychic,—,0.8,15,Status,15
+106,Soft-Boiled,Normal,—,—,10,Status,20
+107,High Jump Kick,Fighting,130,0.9,10,Physical,0
+108,Glare,Normal,—,1,30,Status,1
+109,Poison Gas,Poison,—,.9,40,Status,2
+110,Barrage,Normal,15,0.85,20,Physical,0
+111,Leech Life,Bug,80,1,10,Physical,0
+112,Sky Attack,Flying,200,0.9,5,Physical,0
+113,Bubble,Water,40,1,30,Special,0
+114,Dizzy Punch,Normal,70,1,10,Physical,0
+115,Spore,Grass,—,1,15,Status,3
+116,Flash,Normal,—,1,20,Status,15
+117,Acid Armor,Poison,—,—,20,Status,9
+118,Crabhammer,Water,100,.9,10,Physical,0
+119,Fury Swipes,Normal,18,0.8,15,Physical,0
+120,Bonemerang,Ground,50,0.9,10,Physical,0
+121,Rock Slide,Rock,75,0.9,10,Physical,0
+122,Hyper Fang,Normal,80,0.9,15,Physical,0
+123,Sharpen,Normal,—,—,30,Status,4
+124,Tri Attack,Normal,80,1,10,Special,0
+125,Slash,Normal,70,1,20,Physical,0
