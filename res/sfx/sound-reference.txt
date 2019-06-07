@@ -1,0 +1,13 @@
+000D - hit
+000E - super effective
+00AC - heal
+00BA - not effective
+00D9 - send out
+00E8 - power up
+00EE - power down
+00FE - fast heal
+0001 - proper heal
+0005 - confirm
+0006 - open menu
+0035 - switch
+0036 - send out

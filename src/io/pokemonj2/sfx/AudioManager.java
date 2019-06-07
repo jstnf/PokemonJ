@@ -49,4 +49,19 @@ public class AudioManager
 			e.printStackTrace();
 		}
 	}
+	
+	public static void playSound(Sounds sound)
+	{
+		try
+		{
+			Clip clip = AudioSystem.getClip();
+	        AudioInputStream inputStream = AudioSystem.getAudioInputStream(AudioManager.class.getResourceAsStream(sound.toString()));
+	        clip.open(inputStream);
+	        clip.start(); 
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 }

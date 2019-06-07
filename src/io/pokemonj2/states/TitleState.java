@@ -20,14 +20,14 @@ public class TitleState extends State
 	private int scrollGenerateCounter;
 	private Random r;
 	private ArrayList<Integer> scrolling, position;
-	
+
 	private boolean startSequenceInit;
 	private float blackFadeTransparency;
 
 	public TitleState(Game game)
 	{
 		super(game);
-		
+
 		startSequenceInit = false;
 		blackFadeTransparency = 0;
 
@@ -37,7 +37,7 @@ public class TitleState extends State
 		increasing = true;
 		scrollGenerateCounter = 0;
 		r = new Random();
-		
+
 		AudioManager.playMusic("/sfx/music/title-screen.wav");
 	}
 
@@ -84,7 +84,7 @@ public class TitleState extends State
 				i--;
 			}
 		}
-		
+
 		/* Execute end */
 		if (game.getKeyManager().space && !startSequenceInit)
 		{
@@ -127,10 +127,11 @@ public class TitleState extends State
 				g.drawImage(Assets.battleFrontSprite.get(scrolling.get(i)), position.get(i), 360, 180, 180, null);
 			}
 		}
-		
+
 		if (startSequenceInit)
 		{
-			((Graphics2D) g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Math.min(1, blackFadeTransparency)));
+			((Graphics2D) g).setComposite(
+					AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Math.min(1, blackFadeTransparency)));
 			((Graphics2D) g).fillRect(0, 0, game.getWidth(), game.getHeight());
 		}
 	}

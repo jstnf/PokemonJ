@@ -14,7 +14,7 @@ import io.pokemonj2.states.TitleState;
 public class Game implements Runnable
 {
 	public static final int NUM_OF_POKEMON = 151;
-	
+
 	private int width, height;
 	private String title;
 	private boolean running;
@@ -76,7 +76,7 @@ public class Game implements Runnable
 		display = new Display(title, width, height);
 		display.getFrame().addKeyListener(keyManager);
 		Assets.init();
-		
+
 		TitleState title = new TitleState(this);
 		State.setState(title);
 	}
@@ -105,7 +105,7 @@ public class Game implements Runnable
 
 		// draw here
 
-		if(State.getState() != null)
+		if (State.getState() != null)
 			State.getState().render(g);
 
 		// end drawing
@@ -136,17 +136,17 @@ public class Game implements Runnable
 			e.printStackTrace();
 		}
 	}
-	
+
 	public int getWidth()
 	{
 		return width;
 	}
-	
+
 	public int getHeight()
 	{
 		return height;
 	}
-	
+
 	public KeyManager getKeyManager()
 	{
 		return keyManager;
