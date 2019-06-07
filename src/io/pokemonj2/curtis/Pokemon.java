@@ -80,9 +80,10 @@ public class Pokemon {
 		{
 			isFainted = true;
 			System.out.println(name + " fainted!");
+			this.currHP = 0;
 		}
 		else if(currHP > currStats[0])
-			currHP = currStats[0];
+			this.currHP = currStats[0];
 	}
 	
 	public Status getCurrStatus() {

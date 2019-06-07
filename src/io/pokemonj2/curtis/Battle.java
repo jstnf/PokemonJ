@@ -61,15 +61,15 @@ public class Battle {
 			
 		if(myPKMNSpe >= oppPKMNSpe)//you always win speed tie
 		{
-			runMove(myPKMN, oppPKMN, allMoves.get(moves[input].getMoveNum()));
+			runMove(myPKMN, oppPKMN, allMoves.get(moves[input].getMoveNum() - 1));
 			if(!oppPKMN.isFainted)
-				runMove(oppPKMN, myPKMN, allMoves.get(oppPKMN.getCurrMoves()[oppMoveNum].getMoveNum()));
+				runMove(oppPKMN, myPKMN, allMoves.get(oppPKMN.getCurrMoves()[oppMoveNum].getMoveNum() - 1));
 		}
 		else
 		{
-			runMove(oppPKMN, myPKMN, allMoves.get(moves[oppMoveNum].getMoveNum()));
+			runMove(oppPKMN, myPKMN, allMoves.get(moves[oppMoveNum].getMoveNum() - 1));
 			if(!myPKMN.isFainted)
-				runMove(myPKMN, oppPKMN, allMoves.get(oppPKMN.getCurrMoves()[input].getMoveNum()));
+				runMove(myPKMN, oppPKMN, allMoves.get(oppPKMN.getCurrMoves()[input].getMoveNum() - 1));
 		}
 		
 		runStatus(myPKMN);
@@ -77,11 +77,6 @@ public class Battle {
 		
 		System.out.println("MY: " + myPKMN.getCurrHP());
 		System.out.println("OPP: " + oppPKMN.getCurrHP());
-	
-	if(myPKMN.isFainted)
-		System.out.print("YOU LOST");
-	else
-		System.out.print("YOU WON!");
 	}
 	
 	public Pokemon getMine()
@@ -137,7 +132,7 @@ public class Battle {
 			String name = scnr.nextLine();
 			int type1 = scnr.nextInt();
 			int type2 = scnr.nextInt();
-			int[] stats = {scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt()};
+			int[] stats = {scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt(), scnr.nextInt()};//you can generate multiple of the same moves. oh well
 			Move[] moves = {allMoves.get((int)(Math.random() * 125)), allMoves.get((int)(Math.random() * 125)), allMoves.get((int)(Math.random() * 125)), allMoves.get((int)(Math.random() * 125))};
 			
 			if(whichOne == 0)
@@ -388,6 +383,7 @@ public class Battle {
 						{
 							attack.setCurrHP((int)(attack.getCurrHP() * 1.5));
 							System.out.println(attack.getName() + " healed HP!");
+							System.out.println("MY: " + attack.getCurrHP());
 						}
 					}
 				}
