@@ -75,7 +75,7 @@
 75,Confusion,Psychic,50,1,25,Special,0
 76,Psychic,Psychic,90,1,10,Special,0
 77,Hypnosis,Psychic,—,.6,20,Status,3
-78,Meditate,Psychic,—,—,40,Status,1
+78,Meditate,Psychic,—,—,40,Status,4
 79,Agility,Psychic,—,—,30,Status,14
 80,Quick Attack,Normal,40,1,30,Physical,0
 81,Rage,Normal,20,1,20,Physical,0

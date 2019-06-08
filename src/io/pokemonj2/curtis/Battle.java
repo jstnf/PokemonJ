@@ -1,5 +1,4 @@
 package io.pokemonj2.curtis;
-//add accuracy, evasion, crit hit, PP
 import java.io.File;
 import java.util.Scanner;
 
@@ -54,22 +53,22 @@ public class Battle {
 		if(oppPKMN.getCurrStatus() == Status.PARALYSIS)
 			oppPKMNSpe = oppPKMNSpe / 2;
 
-		double aSpeedMultiplier = calculateMultiplier(myPKMN.getStatChanges()[5]);
+		double aSpeedMultiplier = calculateMultiplier(myPKMN.getStatChanges()[4]);
 		myPKMNSpe = (int)(myPKMNSpe * aSpeedMultiplier);
-		double dSpeedMultiplier = calculateMultiplier(myPKMN.getStatChanges()[5]);
+		double dSpeedMultiplier = calculateMultiplier(oppPKMN.getStatChanges()[4]);
 		oppPKMNSpe = (int)(oppPKMNSpe * dSpeedMultiplier);
 			
 		if(myPKMNSpe >= oppPKMNSpe)//you always win speed tie
 		{
-			runMove(myPKMN, oppPKMN, allMoves.get(moves[input].getMoveNum() - 1));
+			runMove(myPKMN, oppPKMN, allMoves.get(moves[input].getMoveNum()));
 			if(!oppPKMN.isFainted)
-				runMove(oppPKMN, myPKMN, allMoves.get(oppPKMN.getCurrMoves()[oppMoveNum].getMoveNum() - 1));
+				runMove(oppPKMN, myPKMN, allMoves.get(oppPKMN.getCurrMoves()[oppMoveNum].getMoveNum()));
 		}
 		else
 		{
-			runMove(oppPKMN, myPKMN, allMoves.get(moves[oppMoveNum].getMoveNum() - 1));
+			runMove(oppPKMN, myPKMN, allMoves.get(oppPKMN.getCurrMoves()[oppMoveNum].getMoveNum()));
 			if(!myPKMN.isFainted)
-				runMove(myPKMN, oppPKMN, allMoves.get(oppPKMN.getCurrMoves()[input].getMoveNum() - 1));
+				runMove(myPKMN, oppPKMN, allMoves.get(moves[input].getMoveNum()));
 		}
 		
 		runStatus(myPKMN);
@@ -163,19 +162,29 @@ public class Battle {
 			double damage;
 			if(move.getCategory() == 0)//physical
 			{
-				double attackMultiplier = calculateMultiplier(attack.getStatChanges()[1]);
-				double defenseMultiplier = calculateMultiplier(defense.getStatChanges()[2]);
+				double attackMultiplier = calculateMultiplier(attack.getStatChanges()[0]);
+				double defenseMultiplier = calculateMultiplier(defense.getStatChanges()[1]);
 				damage = (((2 * attack.getLevel() / 5) + 2) * move.getDamage() * attack.getCurrStats()[1] * attackMultiplier / (defense.getCurrStats()[2] * defenseMultiplier))/50 + 2;				
 			}
 			else//special
 			{
-				double attackMultiplier = calculateMultiplier(attack.getStatChanges()[3]);
-				double defenseMultiplier = calculateMultiplier(defense.getStatChanges()[4]);
+				double attackMultiplier = calculateMultiplier(attack.getStatChanges()[2]);
+				double defenseMultiplier = calculateMultiplier(defense.getStatChanges()[3]);
 				damage = (((2 * attack.getLevel() / 5) + 2) * move.getDamage() * attack.getCurrStats()[3] * attackMultiplier / (defense.getCurrStats()[4] * defenseMultiplier))/50 + 2;
 			
 			}
 			double criticalHit = 1;
-			if(Math.random() < .0625)
+			int critStage = attack.getStatChanges()[7];
+			double critChance;
+			if(critStage == 3)
+				critChance = 1;
+			else if(critStage == 2)
+				critChance = .5;
+			else if(critStage == 1)
+				critChance = 1/8;
+			else
+				critChance = 1/24;
+			if(Math.random() < critChance)
 			{
 				criticalHit = 1.5;
 				System.out.println("A critical hit!");
@@ -190,7 +199,7 @@ public class Battle {
 			double effective = typeChart[move.getType()][defense.getType1()] * typeChart[move.getType()][defense.getType2()];
 			if(effective > 1)
 				System.out.println("It's super effective!");
-			else if(effective < 0)
+			else if(effective == 0)
 				System.out.println("But it had no effect...");
 			else if(effective < 1)
 				System.out.println("But it was not very effective...");
@@ -244,7 +253,9 @@ public class Battle {
 			System.out.println(attack.getName() + " used " + move.getMoveName() + "!");
 			move.decreasePP();
 			double acc = move.getAccuracy();
-			if(acc != 2 && Math.random() > acc)
+			double accMultiplier = calculateAccMultiplier(attack.getStatChanges()[5]);
+			double evMultiplier = calculateAccMultiplier(defense.getStatChanges()[6] * -1);
+			if(acc != 2 && Math.random() > (acc * accMultiplier * evMultiplier))
 			{
 				canAttack = false;
 				System.out.println("But it missed...");
@@ -253,7 +264,7 @@ public class Battle {
 			{
 				if(move.getCategory() != 2)
 				{
-					int damage = damageCalc(myPKMN, oppPKMN, move);
+					int damage = damageCalc(attack, defense, move);
 					System.out.println(defense.getName() + " took " + damage + " damage!");
 					defense.setCurrHP(defense.getCurrHP() - damage);
 				}
@@ -356,11 +367,11 @@ public class Battle {
 					}
 					else if(secondaryEffect == 18)//critical hit
 					{
-						if(attack.getStatChanges()[8] < 4)
+						if(attack.getStatChanges()[7] < 3)
 						{
-							attack.getStatChanges()[8] = attack.getStatChanges()[8] + 1;
-							if(attack.getStatChanges()[8] > 4)
-								attack.getStatChanges()[8] = 4;
+							attack.getStatChanges()[7] = attack.getStatChanges()[7] + 1;
+							if(attack.getStatChanges()[7] > 3)
+								attack.getStatChanges()[7] = 3;
 							System.out.println(attack.getName() + "'s critical hit chance rose by " + 1 + "!");
 						}
 						else
@@ -383,7 +394,7 @@ public class Battle {
 						{
 							attack.setCurrHP((int)(attack.getCurrHP() * 1.5));
 							System.out.println(attack.getName() + " healed HP!");
-							System.out.println("MY: " + attack.getCurrHP());
+							System.out.println(attack.getName() + ": " + attack.getCurrHP());
 						}
 					}
 				}
@@ -438,7 +449,17 @@ public class Battle {
 		if(statChange > 0)
 			return (statChange + 2) / 2;
 		else if(statChange < 0)
-			return 2 / (statChange + 2);
+			return 2 / (-1 * statChange + 2);
+		else
+			return 1;
+	}
+	
+	private double calculateAccMultiplier(int statChange) //ev passes in negative of the acc multiplier 
+	{
+		if(statChange > 0)
+			return (statChange + 3) / 3;
+		else if(statChange < 0)
+			return 3 / (-1 * statChange + 3);
 		else
 			return 1;
 	}
