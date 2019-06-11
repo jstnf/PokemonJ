@@ -13,7 +13,7 @@ import java.util.Random;
 import io.pokemonj2.Game;
 import io.pokemonj2.Launcher;
 import io.pokemonj2.gfx.Assets;
-import io.pokemonj2.gfx.FontDrawer;
+import io.pokemonj2.gfx.ObjectDrawer;
 import io.pokemonj2.sfx.AudioManager;
 import io.pokemonj2.sfx.Sounds;
 
@@ -322,9 +322,9 @@ public class WelcomeState extends State
 		{
 			if (welcomeStage == 1)
 			{
-				drawDialogueBox(g);
-				FontDrawer.drawText(line1, 70, game.getHeight() - 150, 50, g);
-				FontDrawer.drawText(line2, 70, game.getHeight() - 90, 50, g);
+				ObjectDrawer.drawDialogueBox(game, g);
+				ObjectDrawer.drawBigText(line1, 70, game.getHeight() - 150, 50, g);
+				ObjectDrawer.drawBigText(line2, 70, game.getHeight() - 90, 50, g);
 				if (textDelay == 0)
 				{
 					g.drawImage(Assets.next, game.getWidth() - 100, game.getHeight() - 60 - (nextDisplacement / 10), 30,
@@ -333,7 +333,7 @@ public class WelcomeState extends State
 			}
 			else if (welcomeStage == 2)
 			{
-				drawDialogueBox(g);
+				ObjectDrawer.drawDialogueBox(game, g);
 
 				g.drawImage(Assets.tl, game.getWidth() - 300, game.getHeight() - 400, 40, 40, null);
 				g.drawImage(Assets.t_ho, game.getWidth() - 260, game.getHeight() - 400, 200, 40, null);
@@ -345,11 +345,11 @@ public class WelcomeState extends State
 				g.drawImage(Assets.b_ho, game.getWidth() - 260, game.getHeight() - 240, 200, 40, null);
 				g.drawImage(Assets.fill, game.getWidth() - 260, game.getHeight() - 360, 200, 120, null);
 
-				FontDrawer.drawText(line1, 70, game.getHeight() - 150, 50, g);
-				FontDrawer.drawText(line2, 70, game.getHeight() - 90, 50, g);
+				ObjectDrawer.drawBigText(line1, 70, game.getHeight() - 150, 50, g);
+				ObjectDrawer.drawBigText(line2, 70, game.getHeight() - 90, 50, g);
 
-				FontDrawer.drawText("BOY", game.getWidth() - 210, game.getHeight() - 350, 50, g);
-				FontDrawer.drawText("GIRL", game.getWidth() - 210, game.getHeight() - 290, 50, g);
+				ObjectDrawer.drawBigText("BOY", game.getWidth() - 210, game.getHeight() - 350, 50, g);
+				ObjectDrawer.drawBigText("GIRL", game.getWidth() - 210, game.getHeight() - 290, 50, g);
 
 				if (genderSelIndex == 0)
 				{
@@ -362,10 +362,10 @@ public class WelcomeState extends State
 			}
 			else if (welcomeStage == 4)
 			{
-				drawDialogueBox(g);
+				ObjectDrawer.drawDialogueBox(game, g);
 
-				FontDrawer.drawText(line1, 70, game.getHeight() - 150, 50, g);
-				FontDrawer.drawText(line2, 70, game.getHeight() - 90, 50, g);
+				ObjectDrawer.drawBigText(line1, 70, game.getHeight() - 150, 50, g);
+				ObjectDrawer.drawBigText(line2, 70, game.getHeight() - 90, 50, g);
 				if (textDelay == 0)
 				{
 					g.drawImage(Assets.next, game.getWidth() - 100, game.getHeight() - 60 - (nextDisplacement / 10), 30,
@@ -379,18 +379,5 @@ public class WelcomeState extends State
 				g.fillRect(0, 0, game.getWidth(), game.getHeight());
 			}
 		}
-	}
-
-	private void drawDialogueBox(Graphics g)
-	{
-		g.drawImage(Assets.tl, 20, game.getHeight() - 200, 40, 40, null);
-		g.drawImage(Assets.t_ho, 60, game.getHeight() - 200, game.getWidth() - 120, 40, null);
-		g.drawImage(Assets.tr, game.getWidth() - 60, game.getHeight() - 200, 40, 40, null);
-		g.drawImage(Assets.l_ve, 20, game.getHeight() - 160, 40, 120, null);
-		g.drawImage(Assets.r_ve, game.getWidth() - 60, game.getHeight() - 160, 40, 120, null);
-		g.drawImage(Assets.bl, 20, game.getHeight() - 40, 40, 40, null);
-		g.drawImage(Assets.br, game.getWidth() - 60, game.getHeight() - 40, 40, 40, null);
-		g.drawImage(Assets.b_ho, 60, game.getHeight() - 40, game.getWidth() - 120, 40, null);
-		g.drawImage(Assets.fill, 60, game.getHeight() - 160, game.getWidth() - 120, 120, null);
 	}
 }

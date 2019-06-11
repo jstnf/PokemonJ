@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 
 import io.pokemonj2.Game;
 import io.pokemonj2.gfx.Assets;
-import io.pokemonj2.gfx.FontDrawer;
+import io.pokemonj2.gfx.ObjectDrawer;
 import io.pokemonj2.sfx.AudioManager;
 import io.pokemonj2.sfx.Sounds;
 
@@ -64,7 +64,7 @@ public class GameMenuState extends State
 		g.drawImage(Assets.b_ho, 60, 140, game.getWidth() - 120, 40, null);
 		g.drawImage(Assets.fill, 60, 60, game.getWidth() - 120, 80, null);
 		
-		FontDrawer.drawText("NEW GAME", 64, 64, 72, g);
+		ObjectDrawer.drawBigText("NEW GAME", 64, 64, 72, g);
 		
 		if (initSeq)
 		{

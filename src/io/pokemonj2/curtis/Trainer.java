@@ -14,15 +14,18 @@ public class Trainer
 	// THESE CAN CHANGE
 	public int money;
 	public Pokemon pokemon;
+	public int pokemonDexNum; // TEMP STORED HERE BECAUSE POKEMON DOES NOT HAVE DEXNUM IN ITS CLASS
 
 	public Trainer(String name, int gender)
 	{
 		this.name = name;
 		this.gender = gender;
+		allMoves = new MoveDatabase();
 	}
 	
 	public void generatePKMN(int dexNum)
 	{
+		pokemonDexNum = dexNum;
 		String number = Integer.toString(dexNum);
 		while(number.length() != 3)
 			number = "0" + number;
@@ -62,5 +65,10 @@ public class Trainer
 	public int getMoney()
 	{
 		return money;
+	}
+	
+	public int getDexNum()
+	{
+		return pokemonDexNum;
 	}
 }

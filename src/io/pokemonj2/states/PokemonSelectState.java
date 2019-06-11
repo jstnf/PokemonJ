@@ -11,7 +11,7 @@ import java.util.Random;
 import io.pokemonj2.Game;
 import io.pokemonj2.curtis.Pokenum;
 import io.pokemonj2.gfx.Assets;
-import io.pokemonj2.gfx.FontDrawer;
+import io.pokemonj2.gfx.ObjectDrawer;
 import io.pokemonj2.sfx.AudioManager;
 import io.pokemonj2.sfx.Sounds;
 
@@ -176,6 +176,22 @@ public class PokemonSelectState extends State
 				if (!initReceiveSound && actionDelay == 0)
 				{
 					initReceiveSound = true;
+					
+					int pokemonChosen = 1; // Assign Pokemon
+					switch (selectionIndex)
+					{
+						case 0:
+							pokemonChosen = pokemon1 + 1;
+							break;
+						case 1:
+							pokemonChosen = pokemon2 + 1;
+							break;
+						case 2:
+							pokemonChosen = pokemon3 + 1;
+							break;
+					}
+					game.getTrainer().generatePKMN(pokemonChosen);
+					
 					AudioManager.playSound(Sounds.RECEIVE);
 					actionDelay = 180;
 				}
@@ -219,8 +235,8 @@ public class PokemonSelectState extends State
 		{
 			if (selectionStage == 0)
 			{
-				drawDialogueBox(g);
-				FontDrawer.drawText("Which POKÈMON will you choose?", 70, game.getHeight() - 150, 50, g);
+				ObjectDrawer.drawDialogueBox(game, g);
+				ObjectDrawer.drawBigText("Which POKÈMON will you choose?", 70, game.getHeight() - 150, 50, g);
 				
 				switch (selectionIndex)
 				{
@@ -244,7 +260,7 @@ public class PokemonSelectState extends State
 			}
 			else if (selectionStage == 1)
 			{
-				drawDialogueBox(g);
+				ObjectDrawer.drawDialogueBox(game, g);
 				int pokemonChosen = 1;
 				switch (selectionIndex)
 				{
@@ -269,7 +285,7 @@ public class PokemonSelectState extends State
 				}
 				
 				String name = Pokenum.fromDexNo(pokemonChosen).getName();
-				FontDrawer.drawText("Will you choose " + name + "?", 70, game.getHeight() - 150, 50, g);
+				ObjectDrawer.drawBigText("Will you choose " + name + "?", 70, game.getHeight() - 150, 50, g);
 				
 				g.drawImage(Assets.tl, game.getWidth() - 300, game.getHeight() - 400, 40, 40, null);
 				g.drawImage(Assets.t_ho, game.getWidth() - 260, game.getHeight() - 400, 200, 40, null);
@@ -281,8 +297,8 @@ public class PokemonSelectState extends State
 				g.drawImage(Assets.b_ho, game.getWidth() - 260, game.getHeight() - 240, 200, 40, null);
 				g.drawImage(Assets.fill, game.getWidth() - 260, game.getHeight() - 360, 200, 120, null);
 
-				FontDrawer.drawText("YES", game.getWidth() - 210, game.getHeight() - 350, 50, g);
-				FontDrawer.drawText("NO", game.getWidth() - 210, game.getHeight() - 290, 50, g);
+				ObjectDrawer.drawBigText("YES", game.getWidth() - 210, game.getHeight() - 350, 50, g);
+				ObjectDrawer.drawBigText("NO", game.getWidth() - 210, game.getHeight() - 290, 50, g);
 				
 				if (yesNoIndex == 0)
 				{
@@ -295,7 +311,7 @@ public class PokemonSelectState extends State
 			}
 			else if (selectionStage == 2)
 			{
-				drawDialogueBox(g);
+				ObjectDrawer.drawDialogueBox(game, g);
 				int pokemonChosen = 1;
 				switch (selectionIndex)
 				{
@@ -310,7 +326,7 @@ public class PokemonSelectState extends State
 						break;
 				}
 				String name = Pokenum.fromDexNo(pokemonChosen).getName();
-				FontDrawer.drawText("You chose " + name + "!", 70, game.getHeight() - 150, 50, g);
+				ObjectDrawer.drawBigText("You chose " + name + "!", 70, game.getHeight() - 150, 50, g);
 				
 				if (actionDelay == 0)
 				{
@@ -325,19 +341,6 @@ public class PokemonSelectState extends State
 				g.fillRect(0, 0, game.getWidth(), game.getHeight());
 			}
 		}
-	}
-
-	private void drawDialogueBox(Graphics g)
-	{
-		g.drawImage(Assets.tl, 20, game.getHeight() - 200, 40, 40, null);
-		g.drawImage(Assets.t_ho, 60, game.getHeight() - 200, game.getWidth() - 120, 40, null);
-		g.drawImage(Assets.tr, game.getWidth() - 60, game.getHeight() - 200, 40, 40, null);
-		g.drawImage(Assets.l_ve, 20, game.getHeight() - 160, 40, 120, null);
-		g.drawImage(Assets.r_ve, game.getWidth() - 60, game.getHeight() - 160, 40, 120, null);
-		g.drawImage(Assets.bl, 20, game.getHeight() - 40, 40, 40, null);
-		g.drawImage(Assets.br, game.getWidth() - 60, game.getHeight() - 40, 40, 40, null);
-		g.drawImage(Assets.b_ho, 60, game.getHeight() - 40, game.getWidth() - 120, 40, null);
-		g.drawImage(Assets.fill, 60, game.getHeight() - 160, game.getWidth() - 120, 120, null);
 	}
 
 	private void drawSelectionBox(int x, boolean selected, Graphics g, int pokemon)

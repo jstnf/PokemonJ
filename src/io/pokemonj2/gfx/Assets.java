@@ -15,10 +15,15 @@ public class Assets
 	public static BufferedImage red_tr, red_tl, red_t_ho, red_b_ho, red_l_ve, red_r_ve, red_br, red_bl, red_fill;
 	public static BufferedImage blue_tr, blue_tl, blue_t_ho, blue_b_ho, blue_l_ve, blue_r_ve, blue_br, blue_bl, blue_fill;
 	
+	/* OutOfBattleMenu */
+	public static BufferedImage oob1;
+	public static BufferedImage pokeballIcon;
+	public static BufferedImage hpBar;
+	
 	/* Font */
 	public static BufferedImage[] charSet;
 	
-	/* Oak and Intro*/
+	/* Oak and Intro */
 	public static BufferedImage oak;
 	public static BufferedImage intro_bg;
 	public static BufferedImage table;
@@ -27,6 +32,8 @@ public class Assets
 	public static BufferedImage battle_scene_grass;
 	public static ArrayList<BufferedImage> battleBackSprite, battleFrontSprite;
 	public static ArrayList<Integer> battleBackPixel, battleFrontPixel;
+	public static BufferedImage oppStats, myStats;
+	public static BufferedImage greenBar, yellowBar, redBar, grayBar;
 	
 	/* Characters */
 	public static BufferedImage trainer_boy, trainer_girl;
@@ -120,6 +127,18 @@ public class Assets
 		battleIcons.replaceRGBWithTransparent(255, 255, 255);
 		next = battleIcons.crop(544, 59, 10, 6);
 		selection = battleIcons.crop(269, 4, 5, 10);
+		oppStats = battleIcons.crop(3, 3, 100, 29);
+		myStats = battleIcons.crop(3, 44, 104, 37);
+		greenBar = battleIcons.crop(117, 9, 1, 3);
+		yellowBar = battleIcons.crop(117, 13, 1, 3);
+		redBar = battleIcons.crop(117, 17, 1, 3);
+		grayBar = battleIcons.crop(117, 21, 1, 3);
+		
+		/* OutOfBattle Menu */
+		SpriteSheet pkmnCenter = new SpriteSheet(ImageLoader.loadImage("/textures/pkmn-center.png"));
+		oob1 = pkmnCenter.crop(35, 15, 181, 131);
+		pokeballIcon = ImageLoader.loadImage("/textures/pokeball-icon-highres.png");
+		hpBar = battleIcons.crop(35, 59, 66, 7);
 		
 		/* Characters */
 		SpriteSheet trainerSprites = new SpriteSheet(ImageLoader.loadImage("/textures/sprites/trainer-sprites.png"));
