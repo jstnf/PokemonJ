@@ -163,7 +163,7 @@ public enum Pokenum
 		this.name = name;
 	}
 	
-	public int getDexNo()
+	public int getDexNum()
 	{
 		return dexNo;
 	}
@@ -177,7 +177,7 @@ public enum Pokenum
 	{
 		for (Pokenum p : values())
 		{
-			if (p.getDexNo() == num)
+			if (p.getDexNum() == num)
 			{
 				return p;
 			}

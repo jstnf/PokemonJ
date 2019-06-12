@@ -32,6 +32,31 @@ public class ObjectDrawer
 		}
 	}
 	
+	/* for menus, etc. */
+	public static void drawBigWhiteText(String text, int x, int y, int height, Graphics g)
+	{
+		if (!text.equals(""))
+		{
+			double heightRatio = (double) height / 13.0;
+//			int bwCharSpace = height / 13;
+			int x_index = x;
+			char[] chars = text.toCharArray();
+			for (char c : chars)
+			{
+				if (Assets.whiteCharSet[(int) c] != null)
+				{
+					int widthCalc = (int) (heightRatio * Assets.whiteCharSet[(int) c].getWidth());
+					g.drawImage(Assets.whiteCharSet[(int) c], x_index, y, widthCalc, height, null);
+					x_index += widthCalc;
+				}
+				else
+				{
+					System.out.println((int) c + " is null!");
+				}
+			}
+		}
+	}
+	
 	/* for in-battle stats */
 	public static void drawSmallText(String text, int x, int y, int height, Graphics g)
 	{
@@ -121,5 +146,18 @@ public class ObjectDrawer
 		g.drawImage(Assets.br, game.getWidth() - 60, game.getHeight() - 40, 40, 40, null);
 		g.drawImage(Assets.b_ho, 60, game.getHeight() - 40, game.getWidth() - 120, 40, null);
 		g.drawImage(Assets.fill, 60, game.getHeight() - 160, game.getWidth() - 120, 120, null);
+	}
+	
+	public static void drawBattleBox(Game game, Graphics g)
+	{
+		g.drawImage(Assets.battle_tl, 0, game.getHeight() - 200, 30, 30, null);
+		g.drawImage(Assets.battle_t_ho, 30, game.getHeight() - 200, game.getWidth() - 60, 30, null);
+		g.drawImage(Assets.battle_tr, game.getWidth() - 30, game.getHeight() - 200, 30, 30, null);
+		g.drawImage(Assets.battle_l_ve, 0, game.getHeight() - 170, 30, 140, null);
+		g.drawImage(Assets.battle_r_ve, game.getWidth() - 30, game.getHeight() - 170, 30, 140, null);
+		g.drawImage(Assets.battle_bl, 0, game.getHeight() - 30, 30, 30, null);
+		g.drawImage(Assets.battle_br, game.getWidth() - 30, game.getHeight() - 30, 30, 30, null);
+		g.drawImage(Assets.battle_b_ho, 30, game.getHeight() - 30, game.getWidth() - 60, 30, null);
+		g.drawImage(Assets.battle_fill, 30, game.getHeight() - 170, game.getWidth() - 60, 140, null);
 	}
 }

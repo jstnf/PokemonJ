@@ -84,10 +84,10 @@ public class Game implements Runnable
 		State.setState(title);
 		
 		/* Launch from OutOfBattleState */
-//		AudioManager.playMusic("/sfx/music/ever-grande.wav");
-//		initTrainer("Curtis", 0);
-//		trainer.generatePKMN(151);
-//		State.setState(new OutOfBattleState(this));
+//		AudioManager.playMusic("/sfx/music/battle.wav");
+//		initTrainer("test!", 1);
+//		trainer.generatePKMN(Pokenum.MAGNEMITE.getDexNum());
+//		State.setState(new BattleState(this));
 	}
 
 	private void tick()

@@ -170,7 +170,7 @@ public class OutOfBattleState extends State
 				{
 					// BATTLE!
 					menuState = 2;
-					actionDelay = 30;
+					actionDelay = 155;
 				}
 				else
 				{
@@ -188,6 +188,14 @@ public class OutOfBattleState extends State
 				AudioManager.stopMusic();
 				AudioManager.playSound(Sounds.BATTLE_START);
 				initBattleSounds = true;
+			}
+			else
+			{
+				if (actionDelay == 0)
+				{
+					AudioManager.playMusic("/sfx/music/battle.wav");
+					State.setState(new BattleState(game));
+				}
 			}
 		}
 	}
