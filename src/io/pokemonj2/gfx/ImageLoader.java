@@ -1,9 +1,8 @@
 package io.pokemonj2.gfx;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 public class ImageLoader
 {

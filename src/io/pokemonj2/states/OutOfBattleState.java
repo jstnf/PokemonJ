@@ -1,12 +1,5 @@
 package io.pokemonj2.states;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
-
 import io.pokemonj2.Game;
 import io.pokemonj2.gfx.Assets;
 import io.pokemonj2.gfx.ImageLoader;
@@ -14,44 +7,57 @@ import io.pokemonj2.gfx.ObjectDrawer;
 import io.pokemonj2.sfx.AudioManager;
 import io.pokemonj2.sfx.Sounds;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
+
 public class OutOfBattleState extends State
 {
 	private int selectionIndex;
 	private int actionDelay;
 	private int menuState;
-	
+
 	private BufferedImage pokemonIcon;
 	private boolean pokemonDisplace;
 	private int displaceTimer, displaceThreshold;
 	private double hpBarRatio;
-	
+
 	private int areYouSureBattle;
-	
+
 	private boolean initBattleSounds;
-	
+
+	private int fadeInOutCycles;
+	private float fadeOutAlpha;
+
 	public OutOfBattleState(Game game)
 	{
 		super(game);
-		
+
 		menuState = 0;
-		
+
 		selectionIndex = 0;
 		actionDelay = 0;
-		
+
 		String number = Integer.toString(game.getTrainer().getDexNum());
-		while(number.length() != 3)
+		while (number.length() != 3)
 		{
 			number = "0" + number;
 		}
 		pokemonIcon = ImageLoader.loadImage("/textures/sprites/icons/" + number + ".png");
-		
+
 		pokemonDisplace = false;
 		displaceTimer = 0;
 		displaceThreshold = 10;
-		
+
 		areYouSureBattle = 1;
-		
+
 		initBattleSounds = false;
+
+		fadeInOutCycles = 4;
+		fadeOutAlpha = 0.0f;
 	}
 
 	@Override
@@ -62,12 +68,12 @@ public class OutOfBattleState extends State
 		{
 			actionDelay = 0;
 		}
-		
+
 		int[] maxStats = game.getTrainer().getPokemon().getCurrStats();
 		int maxHp = maxStats[0];
 		double currHp = game.getTrainer().getPokemon().getCurrHP();
-		hpBarRatio = (double) currHp / maxHp;
-		
+		hpBarRatio = currHp / maxHp;
+
 		if (hpBarRatio >= 0.5)
 		{
 			displaceThreshold = 10;
@@ -84,14 +90,14 @@ public class OutOfBattleState extends State
 		{
 			displaceThreshold = Integer.MAX_VALUE;
 		}
-		
+
 		displaceTimer++;
 		if (displaceTimer > displaceThreshold)
 		{
 			displaceTimer = 0;
 			pokemonDisplace = !pokemonDisplace;
 		}
-		
+
 		if (menuState == 0)
 		{
 			if (game.getKeyManager().up && actionDelay == 0)
@@ -197,6 +203,33 @@ public class OutOfBattleState extends State
 					State.setState(new BattleState(game));
 				}
 			}
+
+			if (fadeInOutCycles % 2 == 0 && fadeInOutCycles > 0)
+			{
+				if (fadeOutAlpha < 0.6f)
+				{
+					fadeOutAlpha += 0.04f;
+				}
+				else
+				{
+					fadeInOutCycles -= 1;
+				}
+			}
+			else if (fadeInOutCycles % 2 == 1 && fadeInOutCycles > 0)
+			{
+				if (fadeOutAlpha > 0f)
+				{
+					fadeOutAlpha -= 0.04f;
+				}
+				else
+				{
+					fadeInOutCycles -= 1;
+				}
+			}
+			else if (fadeInOutCycles == 0)
+			{
+				fadeOutAlpha += 0.03f;
+			}
 		}
 	}
 
@@ -205,10 +238,10 @@ public class OutOfBattleState extends State
 	{
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, game.getWidth(), game.getHeight());
-		
+
 		g.drawImage(Assets.oob1, 0, 0, game.getWidth(), game.getHeight(), null);
-		
-		RescaleOp trainerRescale = new RescaleOp(new float[] { 0.1f, 0.1f, 0.1f, 1f }, new float[] { 0, 0, 0, 0 }, null);
+
+		RescaleOp trainerRescale = new RescaleOp(new float[] { 0.1f, 0.1f, 0.1f, 1f }, new float[] { 0, 0, 0, 0 },null);
 		switch (game.getTrainer().getGender())
 		{
 			case 0: // MALE
@@ -224,7 +257,7 @@ public class OutOfBattleState extends State
 				g.drawImage(Assets.trainer_girl, 50, 170, 218, 300, null);
 				break;
 		}
-		
+
 		((Graphics2D) g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
 		g.drawImage(Assets.pokeballIcon, 320, 185, 180, 180, null);
 		((Graphics2D) g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
@@ -238,7 +271,7 @@ public class OutOfBattleState extends State
 		}
 		g.drawImage(Assets.hpBar, 285, 395, 250, 27, null);
 		ObjectDrawer.drawHpBar(hpBarRatio, 346, 403, 181, 11, g);
-		
+
 		// STATUS BAR TOP 920 x 120
 		g.drawImage(Assets.tl, 20, 10, 20, 20, null);
 		g.drawImage(Assets.t_ho, 40, 10, game.getWidth() - 80, 20, null);
@@ -249,7 +282,7 @@ public class OutOfBattleState extends State
 		g.drawImage(Assets.br, game.getWidth() - 40, 110, 20, 20, null);
 		g.drawImage(Assets.b_ho, 40, 110, game.getWidth() - 80, 20, null);
 		g.drawImage(Assets.fill, 40, 30, game.getWidth() - 80, 80, null);
-		
+
 		// STATUS BAR BOTTOM
 		g.drawImage(Assets.tl, 20, game.getHeight() - 130, 20, 20, null);
 		g.drawImage(Assets.t_ho, 40, game.getHeight() - 130, game.getWidth() - 80, 20, null);
@@ -260,9 +293,9 @@ public class OutOfBattleState extends State
 		g.drawImage(Assets.br, game.getWidth() - 40, game.getHeight() - 30, 20, 20, null);
 		g.drawImage(Assets.b_ho, 40, game.getHeight() - 30, game.getWidth() - 80, 20, null);
 		g.drawImage(Assets.fill, 40, game.getHeight() - 110, game.getWidth() - 80, 80, null);
-		
+
 		ObjectDrawer.drawBigText(game.getTrainer().getName(), 60, game.getHeight() - 100, 60, g); // Trainer name
-		
+
 		switch (selectionIndex)
 		{
 			case 0:
@@ -274,13 +307,13 @@ public class OutOfBattleState extends State
 				drawBlueBox(game.getWidth() - 405, true, g);
 				break;
 		}
-		
+
 		if (menuState == 1)
 		{
 			ObjectDrawer.drawDialogueBox(game, g);
 			ObjectDrawer.drawBigText("Are you sure you want to BATTLE?", 70, game.getHeight() - 150, 50, g);
 			ObjectDrawer.drawBigText("There is no going back.", 70, game.getHeight() - 90, 50, g);
-			
+
 			g.drawImage(Assets.tl, game.getWidth() - 300, game.getHeight() - 400, 40, 40, null);
 			g.drawImage(Assets.t_ho, game.getWidth() - 260, game.getHeight() - 400, 200, 40, null);
 			g.drawImage(Assets.tr, game.getWidth() - 60, game.getHeight() - 400, 40, 40, null);
@@ -293,7 +326,7 @@ public class OutOfBattleState extends State
 
 			ObjectDrawer.drawBigText("YES", game.getWidth() - 210, game.getHeight() - 350, 50, g);
 			ObjectDrawer.drawBigText("NO", game.getWidth() - 210, game.getHeight() - 290, 50, g);
-			
+
 			if (areYouSureBattle == 0)
 			{
 				g.drawImage(Assets.selection, game.getWidth() - 250, game.getHeight() - 345, 20, 40, null);
@@ -303,8 +336,15 @@ public class OutOfBattleState extends State
 				g.drawImage(Assets.selection, game.getWidth() - 250, game.getHeight() - 285, 20, 40, null);
 			}
 		}
+		else if (menuState == 2)
+		{
+			((Graphics2D) g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Math.min(1.0f, Math.max(0.0f, fadeOutAlpha))));
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0 , game.getWidth(), game.getHeight());
+			((Graphics2D) g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+		}
 	}
-	
+
 	private void drawRedBox(int x, boolean selected, Graphics g)
 	{
 		BufferedImage tl = Assets.red_tl;
@@ -340,10 +380,10 @@ public class OutOfBattleState extends State
 		g.drawImage(br, x + 365, 295, 20, 20, null);
 		g.drawImage(b_ho, x + 20, 295, 345, 20, null);
 		g.drawImage(fill, x + 20, 160, 345, 135, null);
-		
+
 		ObjectDrawer.drawBigText("BATTLE", x + 125, game.getHeight() / 6 + 150, 50, g);
 	}
-	
+
 	private void drawBlueBox(int x, boolean selected, Graphics g)
 	{
 		BufferedImage tl = Assets.blue_tl;
@@ -379,7 +419,7 @@ public class OutOfBattleState extends State
 		g.drawImage(br, x + 365, 480, 20, 20, null);
 		g.drawImage(b_ho, x + 20, 480, 345, 20, null);
 		g.drawImage(fill, x + 20, 345, 345, 135, null);
-		
+
 		ObjectDrawer.drawBigText("HEAL", x + 155, game.getHeight() / 6 + 150, 50, g);
 	}
 }

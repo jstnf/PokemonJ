@@ -1,15 +1,15 @@
 package io.pokemonj2;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferStrategy;
-
 import io.pokemonj2.curtis.Trainer;
 import io.pokemonj2.gfx.Assets;
 import io.pokemonj2.gfx.Display;
 import io.pokemonj2.input.KeyManager;
 import io.pokemonj2.states.State;
 import io.pokemonj2.states.TitleState;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
 
 public class Game implements Runnable
 {
@@ -84,10 +84,10 @@ public class Game implements Runnable
 		State.setState(title);
 		
 		/* Launch from OutOfBattleState */
-//		AudioManager.playMusic("/sfx/music/battle.wav");
+//		AudioManager.playMusic("/sfx/music/ever-grande.wav");
 //		initTrainer("test!", 1);
 //		trainer.generatePKMN(Pokenum.MAGNEMITE.getDexNum());
-//		State.setState(new BattleState(this));
+//		State.setState(new OutOfBattleState(this));
 	}
 
 	private void tick()

@@ -1,16 +1,16 @@
 package io.pokemonj2.states;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.util.Random;
-
 import io.pokemonj2.Game;
 import io.pokemonj2.curtis.Trainer;
 import io.pokemonj2.gfx.Assets;
 import io.pokemonj2.gfx.ObjectDrawer;
 import io.pokemonj2.sfx.AudioManager;
 import io.pokemonj2.sfx.Sounds;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class BattleState extends State
 {
@@ -29,19 +29,17 @@ public class BattleState extends State
 	private boolean c1Comp, c2Comp;
 	
 	private boolean drawClosePKMN, drawFarPKMN;
-	private int genderToDraw;
+	private boolean drawClosePKMNStatus, drawFarPKMNStatus;
 	private BufferedImage[] currentThrowFrames;
 	private int throwFramesIndex;
 	
 	private boolean initOppSendOut, initYouSendOut;
 	
-	private Random r;
-	
 	public BattleState(Game game)
 	{
 		super(game);
 		
-		r = new Random();
+		Random r = new Random();
 		
 		trainerClass = r.nextInt(104);
 		while (trainerClass == 83 || trainerClass == 89) // invalid trainer classes
@@ -65,10 +63,9 @@ public class BattleState extends State
 		
 		c1Comp = false;
 		c2Comp = false;
-		
-		genderToDraw = game.getTrainer().getGender();
+
 		throwFramesIndex = 0;
-		switch (genderToDraw)
+		switch (game.getTrainer().getGender())
 		{
 			case 0:
 				currentThrowFrames = Assets.throwFrames_boy;
@@ -192,6 +189,7 @@ public class BattleState extends State
 					AudioManager.playSound(Sounds.NORMAL_HIT);
 					AudioManager.playSound("/sfx/cries/" + opponent.getDexNum() + ".wav");
 					drawFarPKMN = true;
+					drawFarPKMNStatus = true;
 					actionDelay = 20;
 				}
 				
@@ -252,6 +250,7 @@ public class BattleState extends State
 					AudioManager.playSound(Sounds.NORMAL_HIT);
 					AudioManager.playSound("/sfx/cries/" + game.getTrainer().getDexNum() + ".wav");
 					drawClosePKMN = true;
+					drawClosePKMNStatus = true;
 					actionDelay = 60;
 				}
 				
@@ -287,6 +286,47 @@ public class BattleState extends State
 		if (drawFarPKMN)
 		{
 			drawFarPKMN(opponent.getDexNum(), 0, g); // replace 0 with displacement later
+		}
+
+		/**
+		 * 370 - 609  240 WIDE
+		 * 111 - 222  112 TALL
+		 *
+		 * farPKMNStatus
+		 *
+		 * 383 - 482  100 WIDE
+		 * 127 - 155  29 TALL
+		 *
+		 * x - 56
+		 * y - 67
+		 * w - 440
+		 * h - 114
+		 *
+		 * HP BAR: 228 135 -> 438 145 (approx)
+		 *
+		 * closePKMNStatus
+		 *
+		 * 496 - 599  104 WIDE
+		 * 185 - 221  36 TALL
+		 *
+		 * x - 508
+		 * y - 294
+		 * w - 416
+		 * h - 141
+		 *
+		 * HP BAR: 701 359 -> 890 369 (approx)
+		 */
+
+		if (drawClosePKMNStatus)
+		{
+			g.drawImage(Assets.myStatus, 508, 294, 416, 141, null);
+			ObjectDrawer.drawHpBar(0.35, 700, 359, 192, 11, g);
+		}
+
+		if (drawFarPKMNStatus)
+		{
+			g.drawImage(Assets.oppStatus, 56, 67, 440, 114, null);
+			ObjectDrawer.drawHpBar(0.35, 228, 134, 211, 12, g);
 		}
 		
 		ObjectDrawer.drawBattleBox(game, g);
@@ -331,6 +371,11 @@ public class BattleState extends State
 			{
 				g.drawImage(Assets.next, game.getWidth() - 70, game.getHeight() - 60 - (nextDisplacement / 10), 30, 20, null);
 			}
+		}
+		else if (battleState == 5)
+		{
+			ObjectDrawer.drawBigWhiteText("What will", 40, game.getHeight() - 150, 50, g);
+			ObjectDrawer.drawBigWhiteText(game.getTrainer().getPokemon().getName().toUpperCase() + " do?", 40, game.getHeight() - 90, 50, g);
 		}
 	}
 	

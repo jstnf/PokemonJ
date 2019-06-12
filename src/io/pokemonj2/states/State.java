@@ -1,8 +1,8 @@
 package io.pokemonj2.states;
 
-import java.awt.Graphics;
-
 import io.pokemonj2.Game;
+
+import java.awt.Graphics;
 
 public abstract class State
 {

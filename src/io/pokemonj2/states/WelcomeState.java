@@ -1,5 +1,12 @@
 package io.pokemonj2.states;
 
+import io.pokemonj2.Game;
+import io.pokemonj2.Launcher;
+import io.pokemonj2.gfx.Assets;
+import io.pokemonj2.gfx.ObjectDrawer;
+import io.pokemonj2.sfx.AudioManager;
+import io.pokemonj2.sfx.Sounds;
+
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -8,14 +15,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Random;
-
-import io.pokemonj2.Game;
-import io.pokemonj2.Launcher;
-import io.pokemonj2.gfx.Assets;
-import io.pokemonj2.gfx.ObjectDrawer;
-import io.pokemonj2.sfx.AudioManager;
-import io.pokemonj2.sfx.Sounds;
 
 public class WelcomeState extends State
 {

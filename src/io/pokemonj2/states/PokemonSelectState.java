@@ -1,5 +1,12 @@
 package io.pokemonj2.states;
 
+import io.pokemonj2.Game;
+import io.pokemonj2.curtis.Pokenum;
+import io.pokemonj2.gfx.Assets;
+import io.pokemonj2.gfx.ObjectDrawer;
+import io.pokemonj2.sfx.AudioManager;
+import io.pokemonj2.sfx.Sounds;
+
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -7,13 +14,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 import java.util.Random;
-
-import io.pokemonj2.Game;
-import io.pokemonj2.curtis.Pokenum;
-import io.pokemonj2.gfx.Assets;
-import io.pokemonj2.gfx.ObjectDrawer;
-import io.pokemonj2.sfx.AudioManager;
-import io.pokemonj2.sfx.Sounds;
 
 public class PokemonSelectState extends State
 {
@@ -284,7 +284,7 @@ public class PokemonSelectState extends State
 						break;
 				}
 				
-				String name = Pokenum.fromDexNo(pokemonChosen).getName();
+				String name = Pokenum.fromDexNum(pokemonChosen).getName();
 				ObjectDrawer.drawBigText("Will you choose " + name + "?", 70, game.getHeight() - 150, 50, g);
 				
 				g.drawImage(Assets.tl, game.getWidth() - 300, game.getHeight() - 400, 40, 40, null);
@@ -325,7 +325,7 @@ public class PokemonSelectState extends State
 						pokemonChosen = pokemon3 + 1;
 						break;
 				}
-				String name = Pokenum.fromDexNo(pokemonChosen).getName();
+				String name = Pokenum.fromDexNum(pokemonChosen).getName();
 				ObjectDrawer.drawBigText("You chose " + name + "!", 70, game.getHeight() - 150, 50, g);
 				
 				if (actionDelay == 0)

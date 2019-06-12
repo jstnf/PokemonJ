@@ -1,45 +1,45 @@
 package io.pokemonj2.gfx;
 
+import io.pokemonj2.Game;
+
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import io.pokemonj2.Game;
-
 public class Assets
 {
 	/* Title Screen Assets */
 	public static BufferedImage titleScreen, pressSpace;
-	
+
 	/* Frames */
 	public static BufferedImage tr, tl, t_ho, b_ho, l_ve, r_ve, br, bl, fill;
 	public static BufferedImage red_tr, red_tl, red_t_ho, red_b_ho, red_l_ve, red_r_ve, red_br, red_bl, red_fill;
 	public static BufferedImage blue_tr, blue_tl, blue_t_ho, blue_b_ho, blue_l_ve, blue_r_ve, blue_br, blue_bl, blue_fill;
 	public static BufferedImage battle_tr, battle_tl, battle_t_ho, battle_b_ho, battle_l_ve, battle_r_ve, battle_br, battle_bl, battle_fill;
-	
+
 	/* OutOfBattleMenu */
 	public static BufferedImage oob1;
 	public static BufferedImage pokeballIcon;
 	public static BufferedImage hpBar;
-	
+
 	/* Font */
 	public static BufferedImage[] charSet;
 	public static BufferedImage[] whiteCharSet;
-	
+
 	/* Oak and Intro */
 	public static BufferedImage oak;
 	public static BufferedImage intro_bg;
 	public static BufferedImage table;
-	
+
 	/* Battle Assets */
 	public static BufferedImage battle_scene_grass;
 	public static BufferedImage battle_scene1;
 	public static BufferedImage battle_scene1_circle1; // far circle
 	public static BufferedImage battle_scene1_circle2; // close circle
-	public static BufferedImage oppStats, myStats;
+	public static BufferedImage oppStatus, myStatus;
 	public static BufferedImage greenBar, yellowBar, redBar, grayBar;
-	
+
 	/* Characters */
 	public static BufferedImage trainer_boy, trainer_girl;
 	public static BufferedImage[] throwFrames_boy, throwFrames_girl;
@@ -48,7 +48,7 @@ public class Assets
 	public static String[] mainNames, boyNames, girlNames;
 	public static ArrayList<BufferedImage> battleBackSprite, battleFrontSprite; // (pokemon)
 	public static ArrayList<Integer> battleBackPixel, battleFrontPixel; // (pokemon)
-	
+
 	/* Misc */
 	public static BufferedImage next;
 	public static BufferedImage selection;
@@ -69,11 +69,11 @@ public class Assets
 		mainNames = new String[34];
 		boyNames = new String[1000];
 		girlNames = new String[1000];
-		
+
 		/* Title Screen */
 		titleScreen = ImageLoader.loadImage("/textures/title/title-screen.png");
 		pressSpace = ImageLoader.loadImage("/textures/title/press-space.png");
-		
+
 		/* Font */
 		// bug, letters are actually 14 letters tall, need to subtract y coord of all by 1 and increasing crop height from 13 to 14
 		// BLACK FONT
@@ -137,7 +137,7 @@ public class Assets
 		charSet[125] = font.crop(387, 29, 8, 13); // } - shows up as MN
 		charSet[130] = font.crop(445, 14, 6, 13); // é
 		charSet[233] = font.crop(445, 14, 6, 13); // é
-		
+
 		// WHITE FONT
 		font.replaceRGBWithTransparent(0, 0, 0);
 		whiteCharSet[32] = font.crop(301, 0, 4, 13); // SPACE
@@ -198,7 +198,7 @@ public class Assets
 		whiteCharSet[125] = font.crop(125, 29, 8, 13); // } - shows up as MN
 		whiteCharSet[130] = font.crop(182, 14, 6, 13); // é
 		whiteCharSet[233] = font.crop(182, 14, 6, 13); // é
-		
+
 		/* Oak */
 		SpriteSheet oakSheet = new SpriteSheet(ImageLoader.loadImage("/textures/sprites/prof-oak.png"));
 		oakSheet.replaceRGBWithTransparent(0, 128, 128);
@@ -206,19 +206,19 @@ public class Assets
 		table = oakSheet.crop(119, 58, 68, 49);
 		SpriteSheet introSheet = new SpriteSheet(ImageLoader.loadImage("/textures/intro-screens.png"));
 		intro_bg = introSheet.crop(5, 5, 239, 159);
-		
+
 		/* Battle Icons */
 		SpriteSheet battleIcons = new SpriteSheet(ImageLoader.loadImage("/textures/battle-icon.png"));
 		battleIcons.replaceRGBWithTransparent(255, 255, 255);
 		next = battleIcons.crop(544, 59, 10, 6);
 		selection = battleIcons.crop(269, 4, 5, 10);
-		oppStats = battleIcons.crop(3, 3, 100, 29);
-		myStats = battleIcons.crop(3, 44, 104, 37);
+		oppStatus = battleIcons.crop(3, 3, 100, 29);
+		myStatus = battleIcons.crop(3, 44, 104, 37);
 		greenBar = battleIcons.crop(117, 9, 1, 3);
 		yellowBar = battleIcons.crop(117, 13, 1, 3);
 		redBar = battleIcons.crop(117, 17, 1, 3);
 		grayBar = battleIcons.crop(117, 21, 1, 3);
-		
+
 		/* Battle Scene */
 		SpriteSheet scene_noCircles = new SpriteSheet(ImageLoader.loadImage("/textures/battle-scenes.png"));
 		battle_scene1 = scene_noCircles.crop(6, 6, 240, 112);
@@ -227,13 +227,13 @@ public class Assets
 		scene_circles.replaceRGBWithTransparent(232, 232, 232);
 		battle_scene1_circle1 = scene_circles.crop(118, 54, 128, 32);
 		battle_scene1_circle2 = scene_circles.crop(10, 107, 120, 11);
-		
+
 		/* OutOfBattle Menu */
 		SpriteSheet pkmnCenter = new SpriteSheet(ImageLoader.loadImage("/textures/pkmn-center.png"));
 		oob1 = pkmnCenter.crop(35, 15, 181, 131);
 		pokeballIcon = ImageLoader.loadImage("/textures/pokeball-icon-highres.png");
 		hpBar = battleIcons.crop(35, 59, 66, 7);
-		
+
 		/* Characters */
 		SpriteSheet trainerSprites = new SpriteSheet(ImageLoader.loadImage("/textures/sprites/trainer-sprites.png"));
 		trainer_boy = trainerSprites.crop(167, 18, 160, 220);
@@ -271,7 +271,8 @@ public class Assets
 		}
 		try
 		{
-			BufferedReader classInfo_reader = new BufferedReader(new InputStreamReader(Assets.class.getResourceAsStream("/data/trainer-classes.txt")));
+			BufferedReader classInfo_reader = new BufferedReader(
+					new InputStreamReader(Assets.class.getResourceAsStream("/data/trainer-classes.txt")));
 			String classInfo_line = classInfo_reader.readLine();
 			int classInfo_index = 0;
 			while (classInfo_line != null)
@@ -284,8 +285,9 @@ public class Assets
 				classInfo_index++;
 				classInfo_line = classInfo_reader.readLine();
 			}
-			
-			BufferedReader mainName_reader = new BufferedReader(new InputStreamReader(Assets.class.getResourceAsStream("/data/main-names.txt")));
+
+			BufferedReader mainName_reader = new BufferedReader(
+					new InputStreamReader(Assets.class.getResourceAsStream("/data/main-names.txt")));
 			String mainName_line = mainName_reader.readLine();
 			int mainName_index = 0;
 			while (mainName_line != null)
@@ -294,8 +296,9 @@ public class Assets
 				mainName_index++;
 				mainName_line = mainName_reader.readLine();
 			}
-			
-			BufferedReader boyName_reader = new BufferedReader(new InputStreamReader(Assets.class.getResourceAsStream("/data/boy-names.txt")));
+
+			BufferedReader boyName_reader = new BufferedReader(
+					new InputStreamReader(Assets.class.getResourceAsStream("/data/boy-names.txt")));
 			String boyName_line = boyName_reader.readLine();
 			int boyName_index = 0;
 			while (boyName_line != null)
@@ -304,8 +307,9 @@ public class Assets
 				boyName_index++;
 				boyName_line = boyName_reader.readLine();
 			}
-			
-			BufferedReader girlName_reader = new BufferedReader(new InputStreamReader(Assets.class.getResourceAsStream("/data/girl-names.txt")));
+
+			BufferedReader girlName_reader = new BufferedReader(
+					new InputStreamReader(Assets.class.getResourceAsStream("/data/girl-names.txt")));
 			String girlName_line = girlName_reader.readLine();
 			int girlName_index = 0;
 			while (girlName_line != null)
@@ -319,7 +323,7 @@ public class Assets
 		{
 			e.printStackTrace();
 		}
-		
+
 		/* Menu Frames */
 		SpriteSheet menuFrames = new SpriteSheet(ImageLoader.loadImage("/textures/menu-frames.png"));
 		menuFrames.replaceRGBWithTransparent(144, 144, 96);
@@ -332,7 +336,7 @@ public class Assets
 		l_ve = menuFrames.crop(4, 26, 8, 8);
 		r_ve = menuFrames.crop(22, 26, 8, 8);
 		fill = menuFrames.crop(13, 26, 8, 8);
-		
+
 		menuFrames.replaceRGBWithTransparent(112, 200, 160);
 		red_tl = menuFrames.crop(64, 98, 8, 8);
 		red_tr = menuFrames.crop(82, 98, 8, 8);
@@ -343,7 +347,7 @@ public class Assets
 		red_l_ve = menuFrames.crop(64, 107, 8, 8);
 		red_r_ve = menuFrames.crop(82, 107, 8, 8);
 		red_fill = menuFrames.crop(73, 107, 8, 8);
-		
+
 		blue_tl = menuFrames.crop(124, 98, 8, 8);
 		blue_tr = menuFrames.crop(142, 98, 8, 8);
 		blue_bl = menuFrames.crop(124, 116, 8, 8);
@@ -353,7 +357,7 @@ public class Assets
 		blue_l_ve = menuFrames.crop(124, 107, 8, 8);
 		blue_r_ve = menuFrames.crop(142, 107, 8, 8);
 		blue_fill = menuFrames.crop(133, 107, 8, 8);
-		
+
 		battle_tl = battleIcons.crop(297, 56, 8, 7);
 		battle_tr = battleIcons.crop(529, 56, 8, 7);
 		battle_bl = battleIcons.crop(297, 97, 8, 7);
@@ -376,7 +380,7 @@ public class Assets
 			/* Load images */
 			BufferedImage back = backSprites.crop(widthIndex * 64, heightIndex * 64, 64, 64);
 			BufferedImage front = frontSprites.crop(widthIndex * 64, heightIndex * 64, 64, 64);
-			
+
 			/* Determining transparency row for back sprites */
 			int back_pixelIndex = 63;
 			int front_pixelIndex = 63;
@@ -388,7 +392,7 @@ public class Assets
 			{
 				front_pixelIndex -= 1;
 			}
-			
+
 			/* Add to lists */
 			battleBackSprite.add(back);
 			battleBackPixel.add(back_pixelIndex);
@@ -416,7 +420,7 @@ public class Assets
 			{
 				return false;
 			}
-			
+
 			widthCheckIndex += 1;
 		}
 		return true;

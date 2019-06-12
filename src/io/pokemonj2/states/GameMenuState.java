@@ -1,15 +1,15 @@
 package io.pokemonj2.states;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
 import io.pokemonj2.Game;
 import io.pokemonj2.gfx.Assets;
 import io.pokemonj2.gfx.ObjectDrawer;
 import io.pokemonj2.sfx.AudioManager;
 import io.pokemonj2.sfx.Sounds;
+
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class GameMenuState extends State
 {
@@ -71,7 +71,7 @@ public class GameMenuState extends State
 			g.setColor(Color.BLACK);
 			((Graphics2D) g).setComposite(
 					AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Math.min(1, blackFadeTransparency)));
-			((Graphics2D) g).fillRect(0, 0, game.getWidth(), game.getHeight());
+			g.fillRect(0, 0, game.getWidth(), game.getHeight());
 		}
 	}
 }

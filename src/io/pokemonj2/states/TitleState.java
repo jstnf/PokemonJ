@@ -1,14 +1,14 @@
 package io.pokemonj2.states;
 
+import io.pokemonj2.Game;
+import io.pokemonj2.gfx.Assets;
+import io.pokemonj2.sfx.AudioManager;
+
 import java.awt.AlphaComposite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Random;
-
-import io.pokemonj2.Game;
-import io.pokemonj2.gfx.Assets;
-import io.pokemonj2.sfx.AudioManager;
 
 public class TitleState extends State
 {

@@ -153,27 +153,27 @@ public enum Pokenum
 	DRAGONITE(149, "DRAGONITE"),
 	MEWTWO(150, "MEWTWO"),
 	MEW(151, "MEW");
-	
-	private int dexNo;
+
+	private int dexNum;
 	private String name;
-	
+
 	Pokenum(int dex, String name)
 	{
-		dexNo = dex;
+		dexNum = dex;
 		this.name = name;
 	}
-	
+
 	public int getDexNum()
 	{
-		return dexNo;
+		return dexNum;
 	}
-	
+
 	public String getName()
 	{
 		return name;
 	}
-	
-	public static Pokenum fromDexNo(int num)
+
+	public static Pokenum fromDexNum(int num)
 	{
 		for (Pokenum p : values())
 		{
