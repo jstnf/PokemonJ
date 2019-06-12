@@ -2,7 +2,6 @@ package io.pokemonj2.battle;
 
 import io.pokemonj2.states.BattleState;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class BattleGUIHook
