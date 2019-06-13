@@ -17,6 +17,7 @@ public class Assets
 	public static BufferedImage red_tr, red_tl, red_t_ho, red_b_ho, red_l_ve, red_r_ve, red_br, red_bl, red_fill;
 	public static BufferedImage blue_tr, blue_tl, blue_t_ho, blue_b_ho, blue_l_ve, blue_r_ve, blue_br, blue_bl, blue_fill;
 	public static BufferedImage battle_tr, battle_tl, battle_t_ho, battle_b_ho, battle_l_ve, battle_r_ve, battle_br, battle_bl, battle_fill;
+	public static BufferedImage mainBattleSelection, moveSelection;
 
 	/* OutOfBattleMenu */
 	public static BufferedImage oob1;
@@ -24,8 +25,7 @@ public class Assets
 	public static BufferedImage hpBar;
 
 	/* Font */
-	public static BufferedImage[] charSet;
-	public static BufferedImage[] whiteCharSet;
+	public static BufferedImage[] charSet, whiteCharSet, smallCharSet;
 
 	/* Oak and Intro */
 	public static BufferedImage oak;
@@ -64,6 +64,7 @@ public class Assets
 		throwFrames_girl = new BufferedImage[5];
 		charSet = new BufferedImage[256];
 		whiteCharSet = new BufferedImage[256];
+		smallCharSet = new BufferedImage[256];
 		trainerClasses = new BufferedImage[104];
 		trainerClassInfo = new String[104][4];
 		mainNames = new String[34];
@@ -324,6 +325,28 @@ public class Assets
 			e.printStackTrace();
 		}
 
+		smallCharSet[32] = battleIcons.crop(244, 171, 4, 10); // SPACE
+		smallCharSet[33] = battleIcons.crop(171, 174, 2, 10); // !
+		smallCharSet[47] = battleIcons.crop(197, 174, 5, 10); // /
+		int s_0_9StartIndex = 171;
+		for (int i = 48; i < 58; i++)
+		{
+			smallCharSet[i] = battleIcons.crop(s_0_9StartIndex, 157, 5, 10); // 0 - 9
+			s_0_9StartIndex += 7;
+		}
+		int s_A_ZStartIndex = 171;
+		for (int i = 65; i < 91; i++)
+		{
+			smallCharSet[i] = battleIcons.crop(s_A_ZStartIndex, 122, 5, 10); // A - Z
+			s_A_ZStartIndex += 7;
+		}
+		int s_a_zStartIndex = 171;
+		for (int i = 97; i < 123; i++)
+		{
+			smallCharSet[i] = battleIcons.crop(s_a_zStartIndex, 141, 5, 10); // a - z
+			s_a_zStartIndex += 7;
+		}
+
 		/* Menu Frames */
 		SpriteSheet menuFrames = new SpriteSheet(ImageLoader.loadImage("/textures/menu-frames.png"));
 		menuFrames.replaceRGBWithTransparent(144, 144, 96);
@@ -367,6 +390,9 @@ public class Assets
 		battle_l_ve = battleIcons.crop(297, 63, 8, 1);
 		battle_r_ve = battleIcons.crop(529, 63, 8, 1);
 		battle_fill = battleIcons.crop(305, 63, 1, 1);
+
+		mainBattleSelection = battleIcons.crop(146, 4, 120, 48);
+		moveSelection = battleIcons.crop(297, 4, 240, 48);
 
 		/* Battle Sprites */
 		SpriteSheet backSprites = new SpriteSheet(ImageLoader.loadImage("/textures/sprites/battle-back-sprites.png"));

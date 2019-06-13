@@ -32,8 +32,17 @@ public class BattleState extends State
 	private boolean drawClosePKMNStatus, drawFarPKMNStatus;
 	private BufferedImage[] currentThrowFrames;
 	private int throwFramesIndex;
+	private double closePKMN_healthPct, farPKMN_healthPct;
 	
 	private boolean initOppSendOut, initYouSendOut;
+
+	private int mainBattleSelectionIndex;
+
+	/**
+	 * Amount of time, in ticks, it takes for the damage to change in the health bar after taking damage
+	 * At normal speed, there are 60 ticks (frames) per second
+	 */
+	private final int CHANGE_HEALTH_TICKS = 150;
 	
 	public BattleState(Game game)
 	{
@@ -77,6 +86,11 @@ public class BattleState extends State
 
 		initOppSendOut = false;
 		initYouSendOut = false;
+
+		closePKMN_healthPct = (double) game.getTrainer().getPokemon().getCurrHP() / game.getTrainer().getPokemon().getCurrStats()[0];
+		farPKMN_healthPct = (double) opponent.getPokemon().getCurrHP() / opponent.getPokemon().getCurrStats()[0];
+
+		mainBattleSelectionIndex = 0;
 	}
 	
 	@Override
@@ -257,14 +271,111 @@ public class BattleState extends State
 				if (game.getKeyManager().interact && actionDelay == 0)
 				{
 					AudioManager.playSound(Sounds.CONFIRM);
-					actionDelay = 120;
+					actionDelay = 30;
 					battleState = 5;
 				}
 			}
 		}
 		else if (battleState == 5) // Normal battle menu
 		{
-			
+			int tempIndex = 0;
+			if (game.getKeyManager().interact && actionDelay == 0)
+			{
+				AudioManager.playSound(Sounds.CONFIRM);
+				battleState = mainBattleSelectionIndex + 6;
+				if (battleState == 6)
+				{
+					mainBattleSelectionIndex = 0;
+				}
+				actionDelay = 20;
+			}
+			else if (game.getKeyManager().up && actionDelay == 0)
+			{
+				tempIndex = mainBattleSelectionIndex;
+				mainBattleSelectionIndex -= 2;
+				if (mainBattleSelectionIndex < 0)
+				{
+					mainBattleSelectionIndex = tempIndex;
+				}
+				else
+				{
+					AudioManager.playSound(Sounds.CONFIRM);
+				}
+				actionDelay = 20;
+			}
+			else if (game.getKeyManager().down && actionDelay == 0)
+			{
+				tempIndex = mainBattleSelectionIndex;
+				mainBattleSelectionIndex += 2;
+				if (mainBattleSelectionIndex > 3)
+				{
+					mainBattleSelectionIndex = tempIndex;
+				}
+				else
+				{
+					AudioManager.playSound(Sounds.CONFIRM);
+				}
+				actionDelay = 20;
+			}
+			else if (game.getKeyManager().right && actionDelay == 0)
+			{
+				tempIndex = mainBattleSelectionIndex;
+				mainBattleSelectionIndex += 1;
+				if (mainBattleSelectionIndex > 3)
+				{
+					mainBattleSelectionIndex = tempIndex;
+				}
+				else
+				{
+					AudioManager.playSound(Sounds.CONFIRM);
+				}
+				actionDelay = 20;
+			}
+			else if (game.getKeyManager().left && actionDelay == 0)
+			{
+				tempIndex = mainBattleSelectionIndex;
+				mainBattleSelectionIndex -= 1;
+				if (mainBattleSelectionIndex < 0)
+				{
+					mainBattleSelectionIndex = tempIndex;
+				}
+				else
+				{
+					AudioManager.playSound(Sounds.CONFIRM);
+				}
+				actionDelay = 20;
+			}
+		}
+		else if (battleState == 6) // Move selection
+		{
+
+		}
+		else if (battleState == 7) // Bag, not implemented
+		{
+			if (game.getKeyManager().interact && actionDelay == 0)
+			{
+				AudioManager.playSound(Sounds.CONFIRM);
+				actionDelay = 30;
+				battleState = 5;
+			}
+		}
+		else if (battleState == 8) // Pokemon, not implemented
+		{
+			if (game.getKeyManager().interact && actionDelay == 0)
+			{
+				AudioManager.playSound(Sounds.CONFIRM);
+				actionDelay = 30;
+				battleState = 5;
+			}
+		}
+		else if (battleState == 9) // Run (cannot run tho)
+		{
+			if (game.getKeyManager().interact && actionDelay == 0)
+			{
+				AudioManager.playSound(Sounds.CONFIRM);
+				actionDelay = 30;
+				battleState = 5;
+			}
 		}
 	}
 
@@ -320,13 +431,13 @@ public class BattleState extends State
 		if (drawClosePKMNStatus)
 		{
 			g.drawImage(Assets.myStatus, 508, 294, 416, 141, null);
-			ObjectDrawer.drawHpBar(0.35, 700, 359, 192, 11, g);
+			ObjectDrawer.drawHpBar(closePKMN_healthPct, 700, 359, 192, 11, g);
 		}
 
 		if (drawFarPKMNStatus)
 		{
 			g.drawImage(Assets.oppStatus, 56, 67, 440, 114, null);
-			ObjectDrawer.drawHpBar(0.35, 228, 134, 211, 12, g);
+			ObjectDrawer.drawHpBar(farPKMN_healthPct, 228, 134, 211, 12, g);
 		}
 		
 		ObjectDrawer.drawBattleBox(game, g);
@@ -376,6 +487,67 @@ public class BattleState extends State
 		{
 			ObjectDrawer.drawBigWhiteText("What will", 40, game.getHeight() - 150, 50, g);
 			ObjectDrawer.drawBigWhiteText(game.getTrainer().getPokemon().getName().toUpperCase() + " do?", 40, game.getHeight() - 90, 50, g);
+
+			g.drawImage(Assets.mainBattleSelection, game.getWidth() / 2, game.getHeight() - 200, game.getWidth() / 2, 200, null);
+
+			/**
+			 * 48 -> 200
+			 * 240 -> 960 (game.getWidth())
+			 *
+			 * 0 - 130 13 -> 520, height - (200 - 54)
+			 * 1 - 186 13 -> 744, height - (200 - 54)
+			 * 2 - 130 29 -> 520, height - (200 - 121)
+			 * 3 - 186 29 -> 744, height - (200 - 121)
+			 */
+			switch (mainBattleSelectionIndex)
+			{
+				case 0:
+					g.drawImage(Assets.selection, 514, game.getHeight() - (200 - 47), 24, 48, null);
+					break;
+				case 1:
+					g.drawImage(Assets.selection, 738, game.getHeight() - (200 - 47), 24, 48, null);
+					break;
+				case 2:
+					g.drawImage(Assets.selection, 514, game.getHeight() - (200 - 114), 24, 48, null);
+					break;
+				case 3:
+					g.drawImage(Assets.selection, 738, game.getHeight() - (200 - 114), 24, 48, null);
+					break;
+			}
+		}
+		else if (battleState == 6)
+		{
+			g.drawImage(Assets.moveSelection, 0, game.getHeight() - 200, game.getWidth(), 200, null);
+		}
+		else if (battleState == 7)
+		{
+			ObjectDrawer.drawBigWhiteText("Sorry, items are not", 40, game.getHeight() - 150, 50, g);
+			ObjectDrawer.drawBigWhiteText("implemented!", 40, game.getHeight() - 90, 50, g);
+
+			if (actionDelay == 0)
+			{
+				g.drawImage(Assets.next, game.getWidth() - 70, game.getHeight() - 60 - (nextDisplacement / 10), 30, 20, null);
+			}
+		}
+		else if (battleState == 8)
+		{
+			ObjectDrawer.drawBigWhiteText("You only have 1", 40, game.getHeight() - 150, 50, g);
+			ObjectDrawer.drawBigWhiteText("POKÈMON!", 40, game.getHeight() - 90, 50, g);
+
+			if (actionDelay == 0)
+			{
+				g.drawImage(Assets.next, game.getWidth() - 70, game.getHeight() - 60 - (nextDisplacement / 10), 30, 20, null);
+			}
+		}
+		else if (battleState == 9)
+		{
+			ObjectDrawer.drawBigWhiteText("You cannot run away", 40, game.getHeight() - 150, 50, g);
+			ObjectDrawer.drawBigWhiteText("from a battle!", 40, game.getHeight() - 90, 50, g);
+
+			if (actionDelay == 0)
+			{
+				g.drawImage(Assets.next, game.getWidth() - 70, game.getHeight() - 60 - (nextDisplacement / 10), 30, 20, null);
+			}
 		}
 	}
 	

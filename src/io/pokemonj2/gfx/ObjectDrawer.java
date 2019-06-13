@@ -58,7 +58,25 @@ public class ObjectDrawer
 	/* for in-battle stats */
 	public static void drawSmallText(String text, int x, int y, int height, Graphics g)
 	{
-
+		if (!text.equals(""))
+		{
+			double heightRatio = height / 10.0;
+			int x_index = x;
+			char[] chars = text.toCharArray();
+			for (char c : chars)
+			{
+				if (Assets.smallCharSet[(int) c] != null)
+				{
+					int widthCalc = (int) (heightRatio * Assets.smallCharSet[(int) c].getWidth());
+					g.drawImage(Assets.smallCharSet[(int) c], x_index, y, widthCalc, height, null);
+					x_index += widthCalc;
+				}
+				else
+				{
+					System.out.println((int) c + " is null!");
+				}
+			}
+		}
 	}
 
 	public static void drawHpBar(double pct, int x, int y, int height, Graphics g)
