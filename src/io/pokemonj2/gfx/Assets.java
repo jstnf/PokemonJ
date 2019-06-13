@@ -340,11 +340,18 @@ public class Assets
 			smallCharSet[i] = battleIcons.crop(s_A_ZStartIndex, 122, 5, 10); // A - Z
 			s_A_ZStartIndex += 7;
 		}
-		int s_a_zStartIndex = 171;
-		for (int i = 97; i < 123; i++)
+		int s_a_hStartIndex = 171;
+		for (int i = 97; i < 105; i++)
 		{
-			smallCharSet[i] = battleIcons.crop(s_a_zStartIndex, 141, 5, 10); // a - z
-			s_a_zStartIndex += 7;
+			smallCharSet[i] = battleIcons.crop(s_a_hStartIndex, 141, 5, 10); // a - h
+			s_a_hStartIndex += 7;
+		}
+		smallCharSet[105] = battleIcons.crop(228, 141, 2, 10); // i
+		int s_j_zStartIndex = 232;
+		for (int i = 106; i < 123; i++)
+		{
+			smallCharSet[i] = battleIcons.crop(s_j_zStartIndex, 141, 5, 10); // j - z
+			s_j_zStartIndex += 7;
 		}
 
 		/* Menu Frames */

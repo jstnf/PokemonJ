@@ -7,7 +7,7 @@ public class KeyManager implements KeyListener
 {
 	private boolean[] keys;
 	public boolean up, down, left, right;
-	public boolean interact;
+	public boolean interact, back;
 	public boolean space;
 
 	public KeyManager()
@@ -23,6 +23,7 @@ public class KeyManager implements KeyListener
 		right = keys[KeyEvent.VK_D];
 
 		interact = keys[KeyEvent.VK_Z];
+		back = keys[KeyEvent.VK_X];
 		space = keys[KeyEvent.VK_SPACE];
 	}
 

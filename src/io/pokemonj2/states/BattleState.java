@@ -33,6 +33,7 @@ public class BattleState extends State
 	private BufferedImage[] currentThrowFrames;
 	private int throwFramesIndex;
 	private double closePKMN_healthPct, farPKMN_healthPct;
+	private boolean increasing1, increasing2;
 	
 	private boolean initOppSendOut, initYouSendOut;
 
@@ -101,6 +102,27 @@ public class BattleState extends State
 		{
 			actionDelay = 0;
 		}
+		
+		if (!increasing1)
+		{
+			closePKMN_healthPct -= 0.01;
+			farPKMN_healthPct -= 0.01;
+			if (farPKMN_healthPct <= 0)
+			{
+				increasing1 = true;
+			}
+		}
+		else
+		{
+			closePKMN_healthPct += 0.01;
+			farPKMN_healthPct += 0.01;
+			if (farPKMN_healthPct >= 1)
+			{
+				increasing1 = false;
+			}
+		}
+		
+		
 		
 		if (nextIncreasing)
 		{
@@ -348,7 +370,79 @@ public class BattleState extends State
 		}
 		else if (battleState == 6) // Move selection
 		{
-
+			int tempIndex = 0;
+			if (game.getKeyManager().interact && actionDelay == 0)
+			{
+				AudioManager.playSound(Sounds.CONFIRM);
+				
+				// SEND ATTACK TO BATTLE
+				
+				actionDelay = 20;
+			}
+			else if (game.getKeyManager().up && actionDelay == 0)
+			{
+				tempIndex = mainBattleSelectionIndex;
+				mainBattleSelectionIndex -= 2;
+				if (mainBattleSelectionIndex < 0)
+				{
+					mainBattleSelectionIndex = tempIndex;
+				}
+				else
+				{
+					AudioManager.playSound(Sounds.CONFIRM);
+				}
+				actionDelay = 20;
+			}
+			else if (game.getKeyManager().down && actionDelay == 0)
+			{
+				tempIndex = mainBattleSelectionIndex;
+				mainBattleSelectionIndex += 2;
+				if (mainBattleSelectionIndex > 3)
+				{
+					mainBattleSelectionIndex = tempIndex;
+				}
+				else
+				{
+					AudioManager.playSound(Sounds.CONFIRM);
+				}
+				actionDelay = 20;
+			}
+			else if (game.getKeyManager().right && actionDelay == 0)
+			{
+				tempIndex = mainBattleSelectionIndex;
+				mainBattleSelectionIndex += 1;
+				if (mainBattleSelectionIndex > 3)
+				{
+					mainBattleSelectionIndex = tempIndex;
+				}
+				else
+				{
+					AudioManager.playSound(Sounds.CONFIRM);
+				}
+				actionDelay = 20;
+			}
+			else if (game.getKeyManager().left && actionDelay == 0)
+			{
+				tempIndex = mainBattleSelectionIndex;
+				mainBattleSelectionIndex -= 1;
+				if (mainBattleSelectionIndex < 0)
+				{
+					mainBattleSelectionIndex = tempIndex;
+				}
+				else
+				{
+					AudioManager.playSound(Sounds.CONFIRM);
+				}
+				actionDelay = 20;
+			}
+			else if (game.getKeyManager().back && actionDelay == 0)
+			{
+				AudioManager.playSound(Sounds.CONFIRM);
+				
+				battleState = 5;
+				
+				actionDelay = 20;
+			}
 		}
 		else if (battleState == 7) // Bag, not implemented
 		{
@@ -518,6 +612,27 @@ public class BattleState extends State
 		else if (battleState == 6)
 		{
 			g.drawImage(Assets.moveSelection, 0, game.getHeight() - 200, game.getWidth(), 200, null);
+			
+			switch (mainBattleSelectionIndex)
+			{
+				case 0:
+					g.drawImage(Assets.selection, 38, 490, 24, 48, null);
+					break;
+				case 1:
+					g.drawImage(Assets.selection, 314, 490, 24, 48, null);
+					break;
+				case 2:
+					g.drawImage(Assets.selection, 38, 550, 24, 48, null);
+					break;
+				case 3:
+					g.drawImage(Assets.selection, 314, 550, 24, 48, null);
+					break;
+			}
+			
+			ObjectDrawer.drawSmallText(game.getTrainer().getPokemon().getCurrMoves()[0].getMoveName(), 72, 494, 40, g);
+			ObjectDrawer.drawSmallText(game.getTrainer().getPokemon().getCurrMoves()[1].getMoveName(), 355, 494, 40, g);
+			ObjectDrawer.drawSmallText(game.getTrainer().getPokemon().getCurrMoves()[2].getMoveName(), 72, 557, 40, g);
+			ObjectDrawer.drawSmallText(game.getTrainer().getPokemon().getCurrMoves()[3].getMoveName(), 355, 557, 40, g);
 		}
 		else if (battleState == 7)
 		{
