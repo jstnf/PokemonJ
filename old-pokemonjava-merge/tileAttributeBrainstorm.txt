@@ -1,0 +1,26 @@
+
+collision
+isLedge
+portal(newLocation)
+text("dialogue")
+isPC
+isPokeMart()
+isPokeCenter()
+trashCan
+hiddenItem
+pokeballItem
+animation
+entity (need to account for static encounters i.e. zapdos)
+canUseHM (surfing, cutting, rock smash, strength, flash, etc.)
+spinTile/stopTile (giovanni's gym)
+orientation
+
+groundTile/3DTile
+
+surfPokemon
+rockSmashPokemon
+fishingPokemon
+grassPokemon
+cavePokemon
+
+soil/berries
